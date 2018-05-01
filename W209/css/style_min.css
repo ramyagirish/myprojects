@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+html, body {
+    margin: 0;
+    padding: 0;
+	height:100%;
+	width:100%;
+}
+
+.header1 {
+	font-family: 'Raleway', sans-serif;
+    line-height: normal;
+	color: #f9e3f4;
+	text-shadow: 300px 300px 300px #000;
+	font-size: 24pt;
+	/*margin: auto;*/
+	text-align:center;
+}
+
+.btn1_grey {
+	border-radius: 8px;
+	font-family: 'Oswald', sans-serif;
+	color: #bbbbbb;
+	font-size: 20pt;
+	padding: 5px 5px;
+    line-height: normal;
+	border: solid #bbbbbb 3px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.btn1 {
+	border-radius: 8px;
+	font-family: 'Oswald', sans-serif;
+	color: #B5D3F5;
+	font-size: 20pt;
+	padding: 5px 5px;
+    line-height: normal;
+	border: solid #B5D3F5 3px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.btn1:hover {
+	color: #fff;
+	border: solid #fff 7px;
+}
+
+.title {
+	top: 0;
+    width: 100%;
+    grid-area: title;
+    background: url(../hiv.jpg) no-repeat center center fixed;
+    display: table;
+    width: 100%;
+    top: 0;
+    background-size: cover;
+}

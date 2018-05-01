@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>AIDSVu State Database Explorer</title>
+    <link rel="stylesheet" type="text/css" href="css/style_min.css" />
+    <link rel="stylesheet" type="text/css" href="css/parallel.css" />
+</head>
+
+<body>
+    <!-- Ramya's title box -->
+    <div class="title">
+        <h1 class="header1">Composite Parallel Coordinates New Infection Rates</h1>
+        <center>
+            <a class="btn1" href="index.html">Home</a>
+            <a class="btn1" href="genderbar.html">Gender</a>
+            <a class="btn1" href="racebar.html">Race</a>
+            <a class="btn1" href="agebar.html">Age</a>
+            <a class="btn1_grey" disabled>Composite</a>
+        </center>
+        <br>&nbsp;
+    </div>
+    <!-- Chris' Parallel Chart Code -->
+    <div id="header">
+        <h1><div id="chart-title">AIDSVu Explorer - New Infections Data (Rate per 100,000)</div></h1>
+        <div class="controls">
+            <span class="settings">
+                <button id="hide-ticks">Hide Ticks</button>
+                <button id="show-ticks" disabled="disabled">Show Ticks</button>
+                <button id="dark-theme" disabled="disabled">Dark</button>
+                <button id="light-theme">Light</button>
+              </span>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="chart">
+        <canvas id="background"></canvas>
+        <canvas id="foreground"></canvas>
+        <canvas id="highlight"></canvas>
+        <svg></svg>
+    </div>
+    <div id="wrap">
+        <div class="third" id="controls">
+            <div class="bright">
+                <h3>What is a Parallel Coordinates Chart?</h3>
+                <p>
+                    A multidimensional explorer of <a href="data/AIDSVu_State_NewDX_2008-2015.csv" target="_blank">state data</a> from <a href="https://aidsvu.org/" target="_blank">AIDSVu</a>.
+                </p>
+                <p>
+                    The parallel coordinates displays the new infection database across 21 dimensions, colored by state.
+                </p>
+                <p>
+                    <a href="http://eagereyes.org/techniques/parallel-coordinate" target="_blank">Never heard of parallel coordinates? Read this tutorial.</a>
+                </p>
+                <p>
+                    <a href="http://eagereyes.org/techniques/parallel-coordinates#brushing" target="_blank">Brush</a> the visualization to select a range of values on the chart.
+                </p>
+            </div>
+
+            <div class="little-box">
+                <h3>Controls</h3>
+                <p>
+                    <strong>Brush</strong>: Click and drag vertically along an axis.<br/>
+                    <strong>Remove Brush</strong>: Tap the axis background.<br/>
+                    <strong>Invert Axes</strong>: Click on a column heading.<br/>
+                    <strong>Reorder Axes</strong>: Drag a heading horizontally.<br/>
+                    <strong>Remove Axis</strong>: Drag axis label to the left edge.<br/>
+                </p>
+                <br> Brushing will select from the selected states and years listed under States/Territories and Years.
+                <p>
+                    Hover over the states to quickly highlight the state data for the selected years.
+                </p>
+                <p>
+                    Hover over the years to quickly highlight year data for the selected states.
+                </p>
+                <p>
+                    If multiple years are selected, the highlight will appear in different hues to help differentate the data.
+                </p>
+            </div>
+        </div>
+        <div class="third">
+            <h3>States / Territories</h3>
+            <div class="inline">
+                <button id="state-show">Show All</button>
+                <button id="state-hide">Hide All</button>
+                <button id="state-toggle">Invert Selection</button>
+            </div>
+            <div class="three_cols" id="legend">
+            </div>
+        </div>
+        <div class="seventh">
+            <h3>Years</h3>
+            <button id="year-show">Show All</button>
+            <button id="year-hide">Hide All</button>
+            <p> <button id="year-toggle">Invert Selection</button></p>
+            <p id="year-list">
+            </p>
+            <h3>Show Data As</h3>
+            <form action="">
+                <input type="radio" name="data-type" value="rate" checked="checked"> Rate per 100,000<br>
+                <input type="radio" name="data-type" value="case"> Number of Cases<br>
+                <input type="radio" name="data-type" value="perc"> Percent of Total Cases
+            </form>
+            <h3>Set Data Scale By</h3>
+            <form action="" class="settings">
+                <input type="radio" name="range-type" value="variable" checked="checked"> Each Variable<br>
+                <input type="radio" name="range-type" value="group"> Variable Group<br>
+                <input type="radio" name="range-type" value="group_selected"> Var Group By Selected
+            </form>
+            <span class="settings">
+            <p><button id="update-scale" disabled="disabled">Rescale by Selected</button></p>
+            </span>
+        </div>
+        <div class="fifth">
+            <h3>Show Data Columns</h3>
+            <p id="feature-list">
+        </div>
+    </div>
+    <div class="big-box">
+        <h3>Credits &amp; License</h3>
+        <p>
+            Timothy Alt, Ramya Balasubramaniam, Chris Beecroft
+            <p>
+                Data: AIDSVu (<a href="http://www.aidsvu.org" target="_blank">www.aidsvu.org</a>). Emory University, Rollins School of Public Health. [Accessed 2017-11-01]
+                <p>
+                    Insipred by and adapted from Kai Chang's <a href="http://bl.ocks.org/syntagmatic/raw/3150059/" target="_blank">Nutrient Explorer</a>
+                </p>
+                <p>
+                    Nutrient Explorer code copyright &copy; 2012, Kai Chang. All rights reserved. Released under the <a href="http://opensource.org/licenses/bsd-3-clause" target="_blank">BSD License</a>.
+                </p>
+            </p>
+    </div>
+</body>
+<script src="js/d3.v4.min.js"></script>
+<script src="js/underscore.js"></script>
+<script src="js/parallel.js"></script>
+
+</html>

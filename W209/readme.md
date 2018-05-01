@@ -1,0 +1,1 @@
+This project was done as part of the data visualization course. The visuals were created with pharmaceutical companies, insurance companies and non-profits working tirelessly to deal with the problem of growing AIDS infection rates. 

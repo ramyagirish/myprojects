@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dc.css">
+<title></title>
+
+</head>
+
+<body>
+	<div class="grid">
+		<div class="title">
+            <h1 class="header1">Gender-Wise Distribution New Infection Rates<h1>
+            <center>
+                <a class="btn1" href="index.html">Home</a>
+                <a class="btn1_grey" disabled>Gender</a>
+                <a class="btn1" href="racebar.html">Race</a>
+                <a class="btn1" href="agebar.html">Age</a>
+                <a class="btn1" href="composite.html">Composite</a>
+            </center>
+        </div>
+        <div class="header">
+                <p>
+                This visualization was created to gain insights on the yearly and state-wise trends in AIDS infection rates and cases in terms of the key demographic characteristic of Gender.
+
+                By pressing on individual bars we could select the set of states and years by which the rates or the total cases could be aggregated. 
+                </p>
+                <fieldset>
+                <legend class="strong1">Important Instructions</legend>
+                <p>
+                In order to activate filters and view the tables, the following button should be pressed each time the visualization is opened.
+                <br></br>
+                <a class = "btn1" onclick="showgender('male')">Activate Filter</a>
+                <br></br>
+                You could view the selected rows by clicking on the following buttons.
+                <br></br>
+                <a class="btn1" href="#popup1">Rates Table</a>
+                <a class="btn1" href="#popup2">Cases Table</a>
+                <br></br>
+                We could choose to see the trends in rates or total cases individually by selecting one of the following buttons. We could also choose to see Both Rates and Total Cases.
+                <br></br>
+                <a class="btn1" onclick="showRate()">Rate</a>
+                <a class="btn1" onclick="showCase()">Total Cases</a>
+                <a class="btn1" onclick="show()">Both</a>
+                </p>
+                </fieldset>
+
+        
+                <div class="dc-data-count">
+                <p>
+                <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+                 href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+                </p>
+                </div>
+                
+
+        </div>
+		<div class="Year"> 
+        <center><strong class="strong1">Gender-wise Distribution by Year</strong>
+        </center>
+
+        <div id="popup1" class="overlay"> 
+            <div class="popup">
+                <h2>Table of New Diagnoses by Rates</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <table class='table table-hover' id='dc-table-graph1'>
+                          <thead>
+                            <tr class='strong1'>
+                            <th>State</th>
+                            <th>Year</th>
+                            <th>Rates(Males)</th>
+                            <th>Rates(Females)</th>
+                            </tr>
+                        </thead>
+                    </table>
+      
+                </div>
+            </div>
+        </div>
+
+        <div id="popup2" class="overlay"> 
+            <div class="popup">
+                <h2>Table of New Diagnoses by Cases</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <table class='table table-hover' id='dc-table-graph2'>
+                        <thead>
+                        <tr class='strong1'>
+                        <th>State</th>
+                        <th>Year</th>
+                        <th>Cases(Males)</th>
+                        <th>Cases(Females)</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        
+        <br></br>
+        <div id="GenderRing">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:genderYearChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+        <div class="clearfix"></div>
+    	</div>
+
+    	<div id="GenderRingCase">
+       <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+       <a class="reset" href="javascript:genderYearChartCase.filterAll();dc.redrawAll();"style="display: none;">reset</a>
+       <div class="clearfix"></div>
+        </div>
+
+        </div>
+
+        <div class="State">
+        <center><strong class="strong1" >Gender-wise Distribution by State</strong></center>
+
+        <div id="GenderStateRate">
+        <br></br>
+		<a class="btn2" onclick="showgender('female')">Female</a>
+		<a class="btn2" onclick="showgender('male')">Male</a>
+
+		<div id="female">
+		<span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:femaleChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+		</div>
+
+		<div id="male">
+		<span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:maleChart.filterAll();dc.redrawAll();"
+        style="display: none;"
+        >reset</a>
+        <div class="clearfix"></div>
+		</div>
+
+	    </div>
+
+		<div id="GenderStateCase">
+		 <br></br>
+		<a class="btn2" onclick="showgenderCase('femaleCase')">Female</a>
+        <a class="btn2" onclick="showgenderCase('maleCase')">Male</a>
+
+
+        <div id="femaleCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:femaleChartCase.filterAll();dc.redrawAll();"style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="maleCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:maleChartCase.filterAll();dc.redrawAll();"
+        style="display: none;"
+        >reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+		</div>
+
+        </div>
+
+</div>
+
+<script src="js/crossfilter.js"></script>
+<script src="js/d3.js"></script>
+<script src="js/dc.js"></script>
+
+
+<script>
+
+function showgender(chart) {
+    document.getElementById('female').style.display = 'none';
+    document.getElementById('male').style.display = 'none';
+    document.getElementById('femaleCase').style.display = 'none';
+
+    document.getElementById(chart).style.display = "block";
+    dc.renderAll();
+}
+
+function showgenderCase(chart) {
+    document.getElementById('femaleCase').style.display = 'none';
+    document.getElementById('maleCase').style.display = 'none';
+  	document.getElementById('female').style.display = 'none';
+
+    document.getElementById(chart).style.display = "block";
+    dc.renderAll();
+}
+
+function showRate() {
+  	document.getElementById('GenderRingCase').style.display = 'none';
+  	document.getElementById('GenderStateCase').style.display = 'none';
+
+
+  	document.getElementById('GenderRing').style.display = "block";
+  	document.getElementById('GenderStateRate').style.display = "block";
+}
+
+function showCase() {
+    document.getElementById('GenderRing').style.display = 'none';
+  	document.getElementById('GenderStateRate').style.display = 'none';
+
+
+  	document.getElementById('GenderRingCase').style.display = "block";
+  	document.getElementById('GenderStateCase').style.display = "block";
+}
+
+function show() {
+    document.getElementById('femaleCase').style.display = 'none';
+  	document.getElementById('female').style.display = 'none';
+
+    document.getElementById('GenderRing').style.display = "block";
+  	document.getElementById('GenderStateRate').style.display = "block";
+
+
+  	document.getElementById('GenderRingCase').style.display = "block";
+  	document.getElementById('GenderStateCase').style.display = "block";
+}
+
+
+var genderYearChart   = dc.barChart("#GenderRing");
+var genderYearChartCase   = dc.barChart("#GenderRingCase");
+var femaleChart = dc.barChart("#female");
+var maleChart = dc.barChart("#male");
+var femaleChartCase = dc.barChart("#femaleCase");
+var maleChartCase = dc.barChart("#maleCase");
+var visCount = dc.dataCount(".dc-data-count");
+var dataTable1 = dc.dataTable("#dc-table-graph1");
+var dataTable2 = dc.dataTable("#dc-table-graph2");
+
+d3.csv("data/AIDSvu_NewDiagnoses.csv", function (err,data){
+
+//instead of using the .gz file we use .csv file which is read without any problems
+if (err) throw err;
+
+// we need to convert the date format for the timestamp
+
+
+// we assign an object to csv data
+var ndx = crossfilter(data);
+// used to perform aggregate functions on objects
+var all = ndx.groupAll();
+
+// creating dimensions
+var StateDim = ndx.dimension(function (d){ return d["StateAbbrev"]; });
+var YearDim = ndx.dimension(function (d){ return d["Year"]; });
+
+var malegrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagMaleRate;});
+var femalegrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagFemaleRate;});
+var malegrpcase = StateDim.group().reduceSum(function (data) { return +data.NewDiagMaleCase;});
+var femalegrpcase = StateDim.group().reduceSum(function (data) { return +data.NewDiagFemaleCase;});
+var gendergrpy = YearDim.group().reduceSum(function (data) { return (+data.NewDiagMaleRate + +data.NewDiagFemaleRate);});
+var gendergrpycase = YearDim.group().reduceSum(function (data) { return (+data.NewDiagMaleCase + +data.NewDiagFemaleCase);});
+
+visCount
+.dimension(ndx)
+.group(all);
+
+maleChart
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(malegrp,"Male")
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .elasticX(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by Male')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+
+femaleChart
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(femalegrp,"Female")
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .elasticX(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by Female')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+
+genderYearChart
+    .width(700)
+    .height(300)
+    .margins({top:5 ,right: 40, bottom: 40, left: 50 })
+    .dimension(YearDim)
+    .group(gendergrpy)
+    .ordering(function(d) { return d.key; })
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('Year')
+    .yAxisLabel('New Diagnoses Rates by Gender')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+maleChartCase
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(malegrpcase,"Male")
+    .ordering(function(d) { return -d.value; })
+    .stack(femalegrpcase,"Female")
+    .ordinalColors(['#e41a1c','#377eb8'])
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Gender')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(maleChartCase, 'legendables', function() {
+          var items = maleChartCase._legendables();
+          return items.reverse();
+      });
+
+femaleChartCase
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(femalegrpcase,"Female")
+    .ordering(function(d) { return -d.value; })
+    .stack(malegrpcase,"Male")
+    .ordinalColors(['#377eb8','#e41a1c'])
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Gender')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(femaleChartCase, 'legendables', function() {
+          var items = femaleChartCase._legendables();
+          return items.reverse();
+      });
+
+genderYearChartCase
+    .width(700)
+    .height(300)
+    .margins({top:5 ,right: 40, bottom: 40, left: 50 })
+    .dimension(YearDim)
+    .group(gendergrpycase)
+    .ordering(function(d) { return d.key; })
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('Year')
+    .yAxisLabel('New Diagnoses Cases by Gender')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+dataTable1
+    .width(1400)
+    .height(1000)
+    .dimension(YearDim)
+    .group(function(d) { return "List of all cases corresponding to the filters"
+     })
+    .size(500)                          
+    .columns([
+      function(d) { return d["StateAbbrev"]; },
+      function(d) { return d["Year"]; },
+      function(d) { return +d["NewDiagMaleRate"]; },
+      function(d) { return +d["NewDiagFemaleRate"]; }
+    ])
+    .sortBy(function(d){ return d["StateAbbrev"]; })
+    .order(d3.ascending);
+
+    dataTable2
+    .width(1400)
+    .height(1000)
+    .dimension(YearDim)
+    .group(function(d) { return "List of all cases corresponding to the filters"
+     })
+    .size(500)                          
+    .columns([
+      function(d) { return d["StateAbbrev"]; },
+      function(d) { return d["Year"]; },
+      function(d) { return +d["NewDiagMaleCase"]; },
+      function(d) { return +d["NewDiagFemaleCase"];}
+    ])
+    .sortBy(function(d){ return d["StateAbbrev"]; })
+    .order(d3.ascending);
+
+visCount.render();
+maleChart.render();
+genderYearChart.render();
+maleChartCase.render();
+genderYearChartCase.render();
+});
+
+</script>
+
+
+</body>
+</html>

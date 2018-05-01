@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dc.css">
+<title></title>
+
+</head>
+
+<body>
+	<div class="grid">
+		<div class="title">
+            <h1 class="header1">Age Distribution New Infection Rates<h1>
+            <center>
+                <a class="btn1" href="index.html">Home</a>
+                <a class="btn1" href="genderbar.html">Gender</a>
+                <a class="btn1" href="racebar.html">Race</a>
+                <a class="btn1_grey" href="agebar.html">Age</a>
+                <a class="btn1" href="composite.html">Composite</a>
+            </center>
+        </div>
+        <div class="header">
+                <p>
+                This visualization was created to gain insights on the yearly and state-wise trends in AIDS infection rates and cases in terms of the key demographic characteristic of Age.
+
+                By pressing on individual bars we could select the set of states and years by which the rates or the total cases could be aggregated. 
+                </p>
+                <fieldset>
+                <legend class="strong1">Important Instructions</legend>
+                <p>
+                In order to activate filters and view the tables, the following button should be pressed each time the visualization is opened.
+                <br></br>
+                <a class = "btn1" onclick="showage('age1324')">Activate Filter</a>
+                <br></br>
+                You could view the selected rows by clicking on the following buttons.
+                <br></br>
+                <a class="btn1" href="#popup1">Rates Table</a>
+                <a class="btn1" href="#popup2">Cases Table</a>
+                <br></br>
+                We could choose to see the trends in rates or total cases individually by selecting one of the following buttons. We could also choose to see Both Rates and Total Cases.
+                <br></br>
+                <a class="btn1" onclick="showRate()">Rate</a>
+                <a class="btn1" onclick="showCase()">Total Cases</a>
+                <a class="btn1" onclick="show()">Both</a>
+                </p>
+                </fieldset>
+
+        
+                <div class="dc-data-count">
+                <p>
+                <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+                 href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+                </p>
+                </div>
+
+
+        </div>
+        <div class="Year">
+                <center>
+                <strong class="strong1">Age-wise Distribution by Year</strong>
+               </center>
+                <div id="popup1" class="overlay"> 
+            <div class="popup">
+                <h2>Table of New Diagnoses by Rates</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <table class='table table-hover' id='dc-table-graph1'>
+                        <thead>
+                        <tr class='strong1'>
+                            <th>State</th>
+                            <th>Year</th>
+                            <th>Rates(13-24 yrs)</th>
+                            <th>Rates(25-34 yrs)</th>
+                            <th>Rates(35-44 yrs)</th>
+                            <th>Rates(45-54 yrs)</th>
+                            <th>Rates(55+ yrs)</th>
+                        </tr>
+                        </thead>
+                    </table>
+      
+                </div>
+            </div>
+        </div>
+
+        <div id="popup2" class="overlay"> 
+            <div class="popup">
+                <h2>Table of New Diagnoses by Cases</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <table class='table table-hover' id='dc-table-graph2'>
+                        <thead>
+                        <tr class='strong1'>
+                            <th>State</th>
+                            <th>Year</th>
+                            <th>Cases(13-24 yrs)</th>
+                            <th>Cases(25-34 yrs)</th>
+                            <th>Cases(35-44 yrs)</th>
+                            <th>Cases(45-54 yrs)</th>
+                            <th>Cases(55+ yrs)</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+                <br></br>
+            <div id="AgeRing">
+                <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+                <a class="reset" href="javascript:ageYearChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+                <div class="clearfix"></div>
+            </div>
+
+            <div id="AgeRingCase">
+                <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+                <a class="reset" href="javascript:ageYearChartCase.filterAll();dc.redrawAll();"style="display: none;">reset</a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div class="State">
+        <center><strong class="strong1" >Age-wise Distribution by State</strong></center>
+
+        <div id="AgeStateRate">
+        <br></br>
+        
+        <a class="btn2" onclick="showage('age1324')">Ages 13-24</a>
+        <a class="btn2" onclick="showage('age2534')">Ages 25-34</a>
+        <a class="btn2" onclick="showage('age3544')">Ages 35-44</a>
+        <a class="btn2" onclick="showage('age4554')">Ages 45-54</a>
+        <a class="btn2" onclick="showage('age55plus')">Ages 55+</a>
+
+        <div id="age1324">
+        <a class="reset" href="javascript:age1324Chart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age2534">
+        <a class="reset" href="javascript:age2534Chart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age3544">
+        <a class="reset" href="javascript:age2534Chart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age4554">
+        <a class="reset" href="javascript:age2534Chart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age55plus">
+        <a class="reset" href="javascript:age55plusChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        </div>
+
+        <div id="AgeStateCase">
+         <br></br>
+
+        <a class="btn2" onclick="showageCase('age1324Case')">Ages 13-24</a>
+        <a class="btn2" onclick="showageCase('age2534Case')">Ages 25-34</a>
+        <a class="btn2" onclick="showageCase('age3544Case')">Ages 35-44</a>
+        <a class="btn2" onclick="showageCase('age4554Case')">Ages 45-54</a>
+        <a class="btn2" onclick="showageCase('age55plusCase')">Ages 55+</a>
+        
+        <div id="age1324Case">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:age1324ChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age2534Case">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:age2534ChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age3544Case">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:age2534ChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age4554Case">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:age2534ChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="age55plusCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:age55plusChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/crossfilter.js"></script>
+<script src="js/d3.js"></script>
+<script src="js/dc.js"></script>
+
+<script>
+
+function showage(chart) {
+
+    document.getElementById('age1324').style.display = 'none';
+    document.getElementById('age2534').style.display = 'none';
+    document.getElementById('age3544').style.display = 'none';
+    document.getElementById('age4554').style.display = 'none';
+    document.getElementById('age55plus').style.display = 'none';
+    document.getElementById('age2534Case').style.display = 'none';
+    document.getElementById('age3544Case').style.display = 'none';
+    document.getElementById('age4554Case').style.display = 'none';
+    document.getElementById('age55plusCase').style.display = 'none';
+
+    document.getElementById(chart).style.display = "block";
+    dc.renderAll();
+}
+
+function showageCase(chart) {
+
+    document.getElementById('age2534').style.display = 'none';
+    document.getElementById('age3544').style.display = 'none';
+    document.getElementById('age4554').style.display = 'none';
+    document.getElementById('age55plus').style.display = 'none';
+    document.getElementById('age1324Case').style.display = 'none';
+    document.getElementById('age2534Case').style.display = 'none';
+    document.getElementById('age3544Case').style.display = 'none';
+    document.getElementById('age4554Case').style.display = 'none';
+    document.getElementById('age55plusCase').style.display = 'none';
+
+
+    document.getElementById(chart).style.display = "block";
+    dc.renderAll();
+}
+
+function showRate() {
+    document.getElementById('AgeRingCase').style.display = 'none';
+    document.getElementById('AgeStateCase').style.display = 'none';
+
+
+    document.getElementById('AgeRing').style.display = "block";
+    document.getElementById('AgeStateRate').style.display = "block";
+}
+
+function showCase() {
+    document.getElementById('AgeRing').style.display = 'none';
+    document.getElementById('AgeStateRate').style.display = 'none';
+
+
+    document.getElementById('AgeRingCase').style.display = "block";
+    document.getElementById('AgeStateCase').style.display = "block";
+}
+
+function show() {
+    document.getElementById('age2534').style.display = 'none';
+    document.getElementById('age3544').style.display = 'none';
+    document.getElementById('age4554').style.display = 'none';
+    document.getElementById('age55plus').style.display = 'none';
+    document.getElementById('age2534Case').style.display = 'none';
+    document.getElementById('age3544Case').style.display = 'none';
+    document.getElementById('age4554Case').style.display = 'none';
+    document.getElementById('age55plusCase').style.display = 'none';
+
+    document.getElementById('AgeRing').style.display = "block";
+    document.getElementById('AgeStateRate').style.display = "block";
+
+
+    document.getElementById('AgeRingCase').style.display = "block";
+    document.getElementById('AgeStateCase').style.display = "block";
+}
+
+var age1324Chart = dc.barChart("#age1324");
+var age2534Chart = dc.barChart("#age2534");
+var age3544Chart = dc.barChart("#age3544");
+var age4554Chart = dc.barChart("#age4554");
+var age55plusChart = dc.barChart("#age55plus");
+var ageYearChart   = dc.barChart("#AgeRing");
+var age1324ChartCase = dc.barChart("#age1324Case");
+var age2534ChartCase = dc.barChart("#age2534Case");
+var age3544ChartCase = dc.barChart("#age3544Case");
+var age4554ChartCase = dc.barChart("#age4554Case");
+var age55plusChartCase = dc.barChart("#age55plusCase");
+var ageYearChartCase  = dc.barChart("#AgeRingCase");
+var visCount = dc.dataCount(".dc-data-count");
+var dataTable1 = dc.dataTable("#dc-table-graph1");
+var dataTable2 = dc.dataTable("#dc-table-graph2");
+
+
+
+d3.csv("data/AIDSvu_NewDiagnoses.csv", function (err,data){
+
+//instead of using the .gz file we use .csv file which is read without any problems
+if (err) throw err;
+
+// we need to convert the date format for the timestamp
+
+
+// we assign an object to csv data
+var ndx = crossfilter(data);
+// used to perform aggregate functions on objects
+var all = ndx.groupAll();
+
+// creating dimensions
+var StateDim = ndx.dimension(function (d){ return d["StateAbbrev"]; });
+var YearDim = ndx.dimension(function (d){ return d["Year"]; });
+
+var age1324grp = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge13_24Rate;});
+var age2534grp = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge25_34Rate;});
+var age3544grp = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge35_44Rate;});
+var age55grp = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge55plusRate;});
+var age4554grp = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge55plusRate;});
+var agegrpy = YearDim.group().reduceSum(function (data) { return (+data.NewDiagAge13_24Rate + +data.NewDiagAge25_34Rate + +data.NewDiagAge45_54Rate + +data.NewDiagAge55plusRate + +data.NewDiagAge45_54Rate);});
+var age1324grpcase = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge13_24Case;});
+var age2534grpcase = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge25_34Case;});
+var age3544grpcase = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge35_44Case;});
+var age55grpcase = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge55plusCase;});
+var age4554grpcase = StateDim.group().reduceSum(function (data) { return +data.NewDiagAge55plusCase;});
+var agegrpycase = YearDim.group().reduceSum(function (data) { return (+data.NewDiagAge13_24Case + +data.NewDiagAge25_34Case + +data.NewDiagAge45_54Case + +data.NewDiagAge55plusCase + +data.NewDiagAge45_54Case);});
+
+
+visCount
+.dimension(ndx)
+.group(all);
+
+age1324Chart
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age1324grp,"Age 13-24")
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases for Ages 13-24');
+       
+age2534Chart
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age2534grp,"Age 25-34")
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases for Ages 25-34');
+
+age3544Chart
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age3544grp,"Age 35-44")
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases for Ages 35-44');
+
+age4554Chart
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age4554grp,"Age 45-54")
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases for Ages 45-44');
+
+age55plusChart
+    .width(1400)
+    .height(300)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age55grp,"Age 55+")
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases for Ages 55+');
+
+
+ageYearChart
+    .width(700)
+    .height(300)
+    .margins({top:5 ,right: 40, bottom: 40, left: 50 })
+    .dimension(YearDim)
+    .group(agegrpy)
+    .ordering(function(d) { return d.key; })
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('Year')
+    .yAxisLabel('New Diagnoses Rates by Age')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+age1324ChartCase
+    .width(1400)
+    .height(500)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age1324grpcase,"Age 13-24")
+    .stack(age2534grpcase,"Age 25-34") 
+    .stack(age3544grpcase,"Age 35-44")
+    .stack(age4554grpcase,"Age 45-54")
+    .stack(age55grpcase,"Age 55+")
+    .ordinalColors(['#377eb8','#e41a1c','#1D8D37','#8D1D8D','#8D6B1D'])
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Age')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(age1324ChartCase, 'legendables', function() {
+          var items = age1324ChartCase._legendables();
+          return items.reverse();
+      });
+       
+age2534ChartCase
+    .width(1400)
+    .height(500)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age2534grpcase,"Age 25-34")
+    .stack(age1324grpcase,"Age 13-24")
+    .stack(age3544grpcase,"Age 35-44")
+    .stack(age4554grpcase,"Age 45-54")
+    .stack(age55grpcase,"Age 55+")
+    .ordinalColors(['#e41a1c','#377eb8','#1D8D37','#8D1D8D','#8D6B1D'])
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Age')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(age2534ChartCase, 'legendables', function() {
+          var items = age2534ChartCase._legendables();
+          return items.reverse();
+      });
+
+age3544ChartCase
+    .width(1400)
+    .height(500)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age3544grpcase,"Age 35-44")
+    .stack(age2534grpcase,"Age 25-34")
+    .stack(age1324grpcase,"Age 13-24")
+    .stack(age4554grpcase,"Age 45-54")
+    .stack(age55grpcase,"Age 55+")
+    .ordinalColors(['#1D8D37','#e41a1c','#377eb8','#8D1D8D','#8D6B1D'])
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Age')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(age3544ChartCase, 'legendables', function() {
+          var items = age3544ChartCase._legendables();
+          return items.reverse();
+      });
+
+age4554ChartCase
+    .width(1400)
+    .height(500)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age4554grpcase,"Age 45-54")
+    .stack(age3544grpcase,"Age 35-44")
+    .stack(age2534grpcase,"Age 25-34")
+    .stack(age1324grpcase,"Age 13-24")
+    .stack(age55grpcase,"Age 55+")
+    .ordinalColors(['#8D1D8D','#1D8D37','#e41a1c','#377eb8','#8D6B1D'])
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Age')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(age4554ChartCase, 'legendables', function() {
+          var items = age4554ChartCase._legendables();
+          return items.reverse();
+      });
+
+age55plusChartCase
+    .width(1400)
+    .height(500)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(10)
+    .group(age55grpcase,"Age 55+")
+    .stack(age4554grpcase,"Age 45-54")
+    .stack(age3544grpcase,"Age 35-44")
+    .stack(age2534grpcase,"Age 25-34")
+    .stack(age1324grpcase,"Age 13-24")
+    .ordinalColors(['#8D6B1D','#8D1D8D','#1D8D37','#e41a1c','#377eb8'])
+    .ordering(function(d) { return -d.value; })
+    .barPadding(0.1)
+    .outerPadding(0.05)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Age')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(age55plusChartCase, 'legendables', function() {
+          var items = age55plusChartCase._legendables();
+          return items.reverse();
+      });
+
+ageYearChartCase
+    .width(700)
+    .height(300)
+    .margins({top:5 ,right: 40, bottom: 40, left: 50 })
+    .dimension(YearDim)
+    .group(agegrpycase)
+    .ordering(function(d) { return d.key; })
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('Year')
+    .yAxisLabel('New Diagnoses Cases by Age')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+dataTable1
+    .width(1400)
+    .height(1000)
+    .dimension(YearDim)
+    .group(function(d) { return "List of all cases corresponding to the filters"
+     })
+    .size(500)                           
+    .columns([
+      function(d) { return d["StateAbbrev"]; },
+      function(d) { return d["Year"]; },
+      function(d) { return +d["NewDiagAge13_24Rate"]; },
+      function(d) { return +d["NewDiagAge25_34Rate"]; },
+      function(d) { return +d["NewDiagAge35_44Rate"]; },
+      function(d) { return +d["NewDiagAge45_54Rate"]; },
+      function(d) { return +d["NewDiagAge55plusRate"]; }
+    ])
+    .sortBy(function(d){ return d["StateAbbrev"]; })
+    .order(d3.ascending);
+
+    dataTable2
+    .width(1400)
+    .height(1000)
+    .dimension(YearDim)
+    .group(function(d) { return "List of all cases corresponding to the filters"
+     })
+    .size(500)                           
+    .columns([
+      function(d) { return d["StateAbbrev"]; },
+      function(d) { return d["Year"]; },
+      function(d) { return +d["NewDiagAge13_24Case"]; },
+      function(d) { return +d["NewDiagAge25_34Case"]; },
+      function(d) { return +d["NewDiagAge35_44Case"]; },
+      function(d) { return +d["NewDiagAge45_54Case"]; },
+      function(d) { return +d["NewDiagAge55plusCase"]; }
+    ])
+    .sortBy(function(d){ return d["StateAbbrev"]; })
+    .order(d3.ascending);
+
+visCount.render();
+age1324Chart.render();
+ageYearChart.render();
+age1324ChartCase.render();
+ageYearChartCase.render();
+
+});
+
+</script>
+</body>
+</html>

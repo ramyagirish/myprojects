@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+html , body {
+	margin:0;
+	padding:0;
+	height:100%;
+	width:100%;
+}
+
+.intro{
+	height:100%;
+	width:100%;
+	margin:auto;
+	/*background: url("https://static.pexels.com/photos/66090/pexels-photo-66090.jpeg") no-repeat 50% 50%;*/
+	background: url(../hiv.jpg) no-repeat center center fixed;
+	display: table;
+	top: 0;
+	background-size: cover;
+}
+
+.intro .inner {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+	max-width: none;
+}
+
+.content {
+	/*max-width: 500px;*/
+	margin: 0 auto;
+	text-align:center;
+}
+
+.content h1{
+	font-family: 'Raleway', sans-serif;
+	color: #f9e3f4;
+	text-shadow: 300px 300px 300px #000;
+	font-size:600%;
+}
+
+.header1 {
+	font-family: 'Raleway', sans-serif;
+	color: #f9e3f4;
+	text-shadow: 300px 300px 300px #000;
+	font-size: 24pt;
+    line-height: normal;
+	/*margin: auto;*/
+	text-align:center;
+}
+
+.btn {
+	border-radius: 9px;
+	font-family: 'Oswald', sans-serif;
+	color: #B5D3F5;
+	font-size: 250%;
+	padding: 20px 20px;
+	border: solid #B5D3F5 5px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.btn:hover {
+	color: #fff;
+	border: solid #fff 8px;
+}
+
+.btn1_grey {
+	border-radius: 8px;
+	font-family: 'Oswald', sans-serif;
+	color: #bbbbbb;
+	font-size: 20pt;
+	padding: 5px 5px;
+    line-height: normal;
+	border: solid #bbbbbb 3px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.btn1 {
+	border-radius: 8px;
+	font-family: 'Oswald', sans-serif;
+	color: #B5D3F5;
+	font-size: 20pt;
+	padding: 5px 5px;
+    line-height: normal;
+	border: solid #B5D3F5 3px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.btn1:hover {
+	color: #fff;
+	border: solid #fff 7px;
+}
+
+.btn2 {
+	border-radius: 8px;
+	font-family: 'Oswald', sans-serif;
+	color: #4A38E6;
+	font-size: 100%;
+	padding: 5px 5px;
+	border: solid #4A38E6 3px;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.btn2:hover {
+	color: #fff;
+	border: solid #fff 7px;
+}
+
+p {
+	font-family: garamond;
+	font-size: 150%;
+	color: #f9e3f4;
+}
+
+strong {
+	font-family: garamond;
+	font-size: 175%;
+	color: #EBB768;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.strong1 {
+	font-family: garamond;
+	color: #DC971F;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+@media screen and (max-width: 768px){
+	.content h1 {
+		font-size: 250%;
+	}
+	.btn {
+		font-size: 110%;
+		padding: 5px 10px;
+	}
+	p {
+		font-size: 100%;
+		line-height: 160%;
+	}
+	strong {
+		font-size: 100%;
+		line-height: 175%;
+	}
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 20px 20px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 5px;
+  height: 70%;
+  width: auto;
+  position: relative;
+  transition: all 2s ease-in-out;
+  overflow: auto;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+  text-align: center;
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 100ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: #06D85F;
+}
+.popup .content {
+  max-height: 85%;
+  max-width: 100%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .popup{
+    width: 70%;
+  }
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 5px;
+}
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 5px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 10% 20% auto auto auto;
+	grid-template-areas:
+	"title"
+	"header"
+	"Year"
+	"State";
+
+
+
+	/*grid-auto-rows: auto;*/
+}
+
+.Year {
+	grid-area: Year;
+	background-color: #B5F2E6;
+}
+
+.State {
+	grid-area: State;
+	background-color: #B5E0F2;
+}
+
+
+/*.grid div:nth-child(even){
+	background-color: red;
+}*/
+
+/*.grid div:nth-child(odd){
+	background-color: green;
+}*/
+
+.title {
+	grid-area: title;
+	background: url(../hiv.jpg) no-repeat center center fixed;
+	display: table;
+    width: 100%;
+	top: 0;
+	background-size: cover;
+}
+
+.header{
+	grid-area: header;
+    width: 100%;
+	background: url(../hiv.jpg) no-repeat center center fixed;
+	display: table;
+	top: 0;
+	background-size: cover;
+}
+
+.footer{
+	background: url(../hiv.jpg) no-repeat center center fixed;
+	display: table;
+	top: 0;
+	background-size: cover;
+}

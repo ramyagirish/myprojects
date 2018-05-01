@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,  initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dc.css">
+<title></title>
+
+</head>
+
+<body>
+	<div class="grid">
+		<div class="title">
+            <h1 class="header1">Race-Wise Distribution New Infection Rates<h1>
+            <center>
+                <a class="btn1" href="index.html">Home</a>
+                <a class="btn1" href="genderbar.html">Gender</a>
+                <a class="btn1_grey" disabled>Race</a>
+                <a class="btn1" href="agebar.html">Age</a>
+                <a class="btn1" href="composite.html">Composite</a>
+            </center>
+        </div>
+        <div class="header">
+                <p>
+                This visualization was created to gain insights on the yearly and state-wise trends in AIDS infection rates and cases in terms of the key demographic characteristic of Race.
+
+                By pressing on individual bars we could select the set of states and years by which the rates or the total cases could be aggregated. 
+                </p>
+                <fieldset>
+                <legend class="strong1">Important Instructions</legend>
+                <p>
+                In order to activate filters and view the tables, the following button should be pressed each time the visualization is opened.
+                <br></br>
+                <a class = "btn1" onclick="showrace('black')">Activate Filter</a>
+                <br></br>
+                You could view the selected rows by clicking on the following buttons.
+                <br></br>
+                <a class="btn1" href="#popup1">Rates Table</a>
+                <a class="btn1" href="#popup2">Cases Table</a>
+                <br></br>
+                We could choose to see the trends in rates or total cases individually by selecting one of the following buttons. We could also choose to see Both Rates and Total Cases.
+                <br></br>
+                <a class="btn1" onclick="showRate()">Rate</a>
+                <a class="btn1" onclick="showCase()">Total Cases</a>
+                <a class="btn1" onclick="show()">Both</a>
+                </p>
+                </fieldset>
+
+        
+                <div class="dc-data-count">
+                <p>
+                <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+                 href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+                </p>
+                </div>
+
+        </div>
+		<div class="Year">
+	    <center><strong class="strong1">Race-wise Distribution by Year</strong>
+        </center>
+        <div id="popup1" class="overlay"> 
+            <div class="popup">
+                <h2>Table of New Diagnoses by Rates</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <table class='table table-hover' id='dc-table-graph1'>
+                        <thead>
+                        <tr class='strong1'>
+                            <th>State</th>
+                            <th>Year</th>
+                            <th>Rates(Blacks)</th>
+                            <th>Rates(Whites)</th>
+                            <th>Rates(Asian)</th>
+                            <th>Rates(Hispanic)</th>
+                            <th>Rates(Amer-Nat.)</th>
+                            <th>Rates(Haw-Native)</th>
+                            <th>Rates(Multi-Race)</th>
+                        </tr>
+                        </thead>
+                    </table>
+      
+                </div>
+            </div>
+        </div>
+
+        <div id="popup2" class="overlay"> 
+            <div class="popup">
+                <h2>Table of New Diagnoses by Cases</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <table class='table table-hover' id='dc-table-graph2'>
+                        <thead>
+                        <tr class='strong1'>
+                            <th>State</th>
+                            <th>Year</th>
+                            <th>Cases(Blacks)</th>
+                            <th>Cases(Whites)</th>
+                            <th>Cases(Asian)</th>
+                            <th>Cases(Hispanic)</th>
+                            <th>Cases(Amer-Nat.)</th>
+                            <th>Cases(Haw-Nat.)</th>
+                            <th>Cases(Multi-Race)</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+	    <br></br>
+		<div id="RaceRing">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:raceYearChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+    	<div id="RaceRingCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:raceYearChartCase.filterAll();dc.redrawAll();"style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        </div>
+
+        <div class="State">
+        <center><strong class="strong1" >Race-wise Distribution by State</strong></center>
+
+        <div id="RaceStateRate">
+        <br></br>
+        <a class="btn2" onclick="showrace('black')">Black</a>
+        <a class="btn2" onclick="showrace('white')">White</a>
+        <a class="btn2" onclick="showrace('asian')">Asian</a>
+        <a class="btn2" onclick="showrace('hispanic')">Hispanic</a>
+        <a class="btn2"onclick="showrace('americanNative')">American Native</a>
+        <a class="btn2" onclick="showrace('hawaiianNative')">Hawaiian Native</a>
+        <a class="btn2" onclick="showrace('multipleRace')">Multiple Race</a>
+
+		<div id="black">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:blackChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="white">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:whiteChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="asian">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:asianChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="hispanic">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:hispanicChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="americanNative">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:americanNativeChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="hawaiianNative">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:hawaiianNativeChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="multipleRace">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:multipleRaceChart.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+	    </div>
+
+		<div id="RaceStateCase">
+		 <br></br>
+
+        <a class="btn2" onclick="showraceCase('blackCase')">Black</a>
+        <a class="btn2" onclick="showraceCase('whiteCase')">White</a>
+        <a class="btn2" onclick="showraceCase('asianCase')">Asian</a>
+        <a class="btn2" onclick="showraceCase('hispanicCase')">Hispanic</a>
+        <a class="btn2" onclick="showraceCase('americanNativeCase')">American Native</a>
+        <a class="btn2" onclick="showraceCase('hawaiianNativeCase')">Hawaiian Native</a>
+        <a class="btn2" onclick="showraceCase('multipleRaceCase')">Multiple Race</a>
+
+
+        <div id="blackCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:blackChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="whiteCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:whiteChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="asianCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:asianChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="hispanicCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:hispanicChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="americanNativeCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:americanNativeChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="hawaiianNativeCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:hawaiianNativeChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+        <div id="multipleRaceCase">
+        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+        <a class="reset" href="javascript:multipleRaceChartCase.filterAll();dc.redrawAll();"
+           style="display: none;">reset</a>
+        <div class="clearfix"></div>
+        </div>
+
+		</div>
+
+        </div>
+
+</div>
+
+<script src="js/crossfilter.js"></script>
+<script src="js/d3.js"></script>
+<script src="js/dc.js"></script>
+
+
+<script>
+
+function showrace(chart) {
+
+    document.getElementById('black').style.display = 'none';
+    document.getElementById('white').style.display = 'none';
+    document.getElementById('asian').style.display = 'none';
+    document.getElementById('hispanic').style.display = 'none';
+    document.getElementById('americanNative').style.display = 'none';
+    document.getElementById('hawaiianNative').style.display = 'none';
+    document.getElementById('multipleRace').style.display = 'none';
+    document.getElementById('whiteCase').style.display = 'none';
+    document.getElementById('asianCase').style.display = 'none';
+    document.getElementById('hispanicCase').style.display = 'none';
+    document.getElementById('americanNativeCase').style.display = 'none';
+    document.getElementById('hawaiianNativeCase').style.display = 'none';
+    document.getElementById('multipleRaceCase').style.display = 'none';
+
+    document.getElementById(chart).style.display = "block";
+    dc.renderAll();
+}
+
+function showraceCase(chart) {
+
+    document.getElementById('white').style.display = 'none';
+    document.getElementById('asian').style.display = 'none';
+    document.getElementById('hispanic').style.display = 'none';
+    document.getElementById('americanNative').style.display = 'none';
+    document.getElementById('hawaiianNative').style.display = 'none';
+    document.getElementById('multipleRace').style.display = 'none';
+    document.getElementById('blackCase').style.display = 'none';
+    document.getElementById('whiteCase').style.display = 'none';
+    document.getElementById('asianCase').style.display = 'none';
+    document.getElementById('hispanicCase').style.display = 'none';
+    document.getElementById('americanNativeCase').style.display = 'none';
+    document.getElementById('hawaiianNativeCase').style.display = 'none';
+    document.getElementById('multipleRaceCase').style.display = 'none';
+
+
+    document.getElementById(chart).style.display = "block";
+    dc.renderAll();
+}
+
+function showRate() {
+  	document.getElementById('RaceRingCase').style.display = 'none';
+  	document.getElementById('RaceStateCase').style.display = 'none';
+
+
+  	document.getElementById('RaceRing').style.display = "block";
+  	document.getElementById('RaceStateRate').style.display = "block";
+}
+
+function showCase() {
+    document.getElementById('RaceRing').style.display = 'none';
+  	document.getElementById('RaceStateRate').style.display = 'none';
+
+
+  	document.getElementById('RaceRingCase').style.display = "block";
+  	document.getElementById('RaceStateCase').style.display = "block";
+}
+
+function show() {
+    document.getElementById('white').style.display = 'none';
+    document.getElementById('asian').style.display = 'none';
+    document.getElementById('hispanic').style.display = 'none';
+    document.getElementById('americanNative').style.display = 'none';
+    document.getElementById('hawaiianNative').style.display = 'none';
+    document.getElementById('multipleRace').style.display = 'none';
+    document.getElementById('whiteCase').style.display = 'none';
+    document.getElementById('asianCase').style.display = 'none';
+    document.getElementById('hispanicCase').style.display = 'none';
+    document.getElementById('americanNativeCase').style.display = 'none';
+    document.getElementById('hawaiianNativeCase').style.display = 'none';
+    document.getElementById('multipleRaceCase').style.display = 'none';
+
+    document.getElementById('RaceRing').style.display = "block";
+  	document.getElementById('RaceStateRate').style.display = "block";
+
+
+  	document.getElementById('RaceRingCase').style.display = "block";
+  	document.getElementById('RaceStateCase').style.display = "block";
+}
+
+
+var raceYearChart   = dc.barChart("#RaceRing");
+var raceYearChartCase   = dc.barChart("#RaceRingCase");
+var blackChart = dc.barChart("#black");
+var whiteChart = dc.barChart("#white");
+var asianChart = dc.barChart("#asian");
+var hispanicChart = dc.barChart("#hispanic");
+var americanNativeChart = dc.barChart("#americanNative");
+var hawaiianNativeChart = dc.barChart("#hawaiianNative");
+var multipleRaceChart = dc.barChart("#multipleRace");
+var blackChartCase = dc.barChart("#blackCase");
+var whiteChartCase = dc.barChart("#whiteCase");
+var asianChartCase = dc.barChart("#asianCase");
+var hispanicChartCase = dc.barChart("#hispanicCase");
+var americanNativeChartCase = dc.barChart("#americanNativeCase");
+var hawaiianNativeChartCase = dc.barChart("#hawaiianNativeCase");
+var multipleRaceChartCase = dc.barChart("#multipleRaceCase");
+var visCount = dc.dataCount(".dc-data-count");
+var dataTable1 = dc.dataTable("#dc-table-graph1");
+var dataTable2 = dc.dataTable("#dc-table-graph2");
+
+d3.csv("data/AIDSvu_NewDiagnoses.csv", function (err,data){
+
+//instead of using the .gz file we use .csv file which is read without any problems
+if (err) throw err;
+
+// we need to convert the date format for the timestamp
+
+
+// we assign an object to csv data
+var ndx = crossfilter(data);
+// used to perform aggregate functions on objects
+var all = ndx.groupAll();
+
+// creating dimensions
+var StateDim = ndx.dimension(function (d){ return d["StateAbbrev"]; });
+var YearDim = ndx.dimension(function (d){ return d["Year"]; });
+
+var blackgrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagBlackRate >= 0 ? +data.NewDiagBlackRate : 0;});
+var whitegrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagWhiteRate >= 0 ? +data.NewDiagWhiteRate : 0;});
+var hispgrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagHispRate >= 0 ? +data.NewDiagHispRate : 0;});
+var asiangrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagAsianRate >= 0 ? +data.NewDiagAsianRate : 0;});
+var angrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagAmericanNativeRate >= 0 ? +data.NewDiagAmericanNativeRate : 0;});
+var hngrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagHawaiianNativeRate >= 0 ? +data.NewDiagHawaiianNativeRate : 0;});
+var multigrp = StateDim.group().reduceSum(function (data) { return +data.NewDiagMultipleRaceRate >= 0 ? +data.NewDiagMultipleRaceRate : 0;});
+var racegrpy = YearDim.group().reduceSum(function (data) { return (+data.NewDiagBlackRate + +data.NewDiagWhiteRate + +data.NewDiagHispRate + +data.NewDiagAsianRate + +data.NewDiagAmericanNativeRate + +data.NewDiagHawaiianNativeRate + +data.NewDiagMultipleRaceRate);});
+var blackgrpcase = StateDim.group().reduceSum(function (data) { return data.NewDiagBlackCase >= 0 ? data.NewDiagBlackCase : 0;});
+var whitegrpcase = StateDim.group().reduceSum(function (data) { return data.NewDiagWhiteCase >= 0 ? data.NewDiagWhiteCase : 0;});
+var hispgrpcase = StateDim.group().reduceSum(function (data) { return data.NewDiagHispCase >= 0 ? data.NewDiagHispCase : 0;});
+var asiangrpcase = StateDim.group().reduceSum(function (data) { return data.NewDiagAsianCase >= 0 ? data.NewDiagAsianCase : 0;});
+var angrpcase = StateDim.group().reduceSum(function (data) { return data.NewDiagAmericanNativeCase >= 0 ? data.NewDiagAmericanNativeCase : 0;});
+var hngrpcase = StateDim.group().reduceSum(function (data) { return data.NewDiagHawaiianNativeCase >= 0 ? data.NewDiagHawaiianNativeCase : 0;});
+var multigrpcase = StateDim.group().reduceSum(function (data) { return data.NewDiagMultipleRaceCase >= 0 ? data.NewDiagMultipleRaceCase : 0;});
+var racegrpycase = YearDim.group().reduceSum(function (data) { return (+data.NewDiagBlackCase + +data.NewDiagWhiteCase + +data.NewDiagHispCase + +data.NewDiagAsianCase + +data.NewDiagAmericanNativeCase + +data.NewDiagHawaiianNativeCase + +data.NewDiagMultipleRaceCase);});
+
+
+visCount
+.dimension(ndx)
+.group(all);
+
+blackChart
+    .width(1400)
+    .height(400)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(blackgrp,"Black")
+    .ordering(function(d) { return -d.value; })
+    .elasticX(true)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by Black');
+
+
+whiteChart
+    .width(1400)
+    .height(400)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(whitegrp,"White")
+    .ordering(function(d) { return -d.value; })
+    .elasticX(true)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by White');
+
+
+hispanicChart
+    .width(1400)
+    .height(400)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(hispgrp,"Hispanic")
+    .ordering(function(d) { return -d.value; })
+    .elasticX(true)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by Hispanic');
+
+asianChart
+    .width(1400)
+    .height(400)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(asiangrp,"Asian")
+    .ordering(function(d) { return -d.value; })
+    .elasticX(true)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by Asian');
+
+
+americanNativeChart
+    .width(1400)
+    .height(400)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(angrp,"American Native")
+    .ordering(function(d) { return -d.value; })
+    .elasticX(true)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by American Native');
+
+
+hawaiianNativeChart
+    .width(1400)
+    .height(400)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(hngrp,"Hawaiian Native")
+    .ordering(function(d) { return -d.value; })
+    .elasticX(true)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by Hawaiian Native');
+
+multipleRaceChart
+    .width(1400)
+    .height(400)
+    .margins({top:15 ,right: 20, bottom: 35, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(multigrp,"Mutiple Race")
+    .ordering(function(d) { return -d.value; })
+    .elasticX(true)
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Rates by Multiple Race');
+
+
+raceYearChart
+    .width(700)
+    .height(300)
+    .margins({top:5 ,right: 40, bottom: 40, left: 50 })
+    .dimension(YearDim)
+    .group(racegrpy)
+    .ordering(function(d) { return d.key; })
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('Year')
+    .yAxisLabel('New Diagnoses Rates by Race')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+
+blackChartCase
+    .width(1400)
+    .height(800)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(blackgrpcase,"Black")
+    .stack(whitegrpcase,"White")
+    .stack(hispgrpcase,"Hispanic")
+    .stack(asiangrpcase,"Asian")
+    .stack(angrpcase,"American Native")
+    .stack(hngrpcase,"Hawaiian Native")
+    .stack(multigrpcase,"Mutiple Race")
+    .ordinalColors(['#377eb8','#e41a1c','#1D8D37','#8D1D8D','#8D6B1D','#681D8D','#ECF751','#51F7F2'])
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(blackChartCase, 'legendables', function() {
+          var items = blackChartCase._legendables();
+          return items.reverse();
+      });
+
+whiteChartCase
+    .width(1400)
+    .height(800)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(whitegrpcase,"White")
+    .stack(blackgrpcase,"Black")
+    .stack(hispgrpcase,"Hispanic")
+    .stack(asiangrpcase,"Asian")
+    .stack(angrpcase,"American Native")
+    .stack(hngrpcase,"Hawaiian Native")
+    .stack(multigrpcase,"Mutiple Race")
+    .ordinalColors(['#e41a1c','#377eb8','#1D8D37','#8D1D8D','#8D6B1D','#681D8D','#ECF751','#51F7F2'])
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(whiteChartCase, 'legendables', function() {
+          var items = whiteChartCase._legendables();
+          return items.reverse();
+      });
+
+hispanicChartCase
+    .width(1400)
+    .height(800)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(hispgrpcase,"Hispanic")
+    .stack(whitegrpcase,"White")
+    .stack(blackgrpcase,"Black")
+    .stack(asiangrpcase,"Asian")
+    .stack(angrpcase,"American Native")
+    .stack(hngrpcase,"Hawaiian Native")
+    .stack(multigrpcase,"Mutiple Race")
+    .ordinalColors(['#1D8D37','#e41a1c','#377eb8','#8D1D8D','#8D6B1D','#681D8D','#ECF751','#51F7F2'])
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(hispanicChartCase, 'legendables', function() {
+          var items = hispanicChartCase._legendables();
+          return items.reverse();
+      });
+
+asianChartCase
+    .width(1400)
+    .height(800)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(asiangrpcase,"Asian")
+    .stack(hispgrpcase,"Hispanic")
+    .stack(whitegrpcase,"White")
+    .stack(blackgrpcase,"Black")
+    .stack(angrpcase,"American Native")
+    .stack(hngrpcase,"Hawaiian Native")
+    .stack(multigrpcase,"Mutiple Race")
+    .ordinalColors(['#8D1D8D','#1D8D37','#e41a1c','#377eb8','#8D6B1D','#681D8D','#ECF751','#51F7F2'])
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(asianChartCase, 'legendables', function() {
+          var items = asianChartCase._legendables();
+          return items.reverse();
+      });
+
+americanNativeChartCase
+    .width(1400)
+    .height(800)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(angrpcase,"American Native")
+    .stack(asiangrpcase,"Asian")
+    .stack(hispgrpcase,"Hispanic")
+    .stack(whitegrpcase,"White")
+    .stack(blackgrpcase,"Black")
+    .stack(hngrpcase,"Hawaiian Native")
+    .stack(multigrpcase,"Mutiple Race")
+    .ordinalColors(['#8D6B1D','#8D1D8D','#1D8D37','#e41a1c','#377eb8','#681D8D','#ECF751','#51F7F2'])
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(americanNativeChartCase, 'legendables', function() {
+          var items = americanNativeChartCase._legendables();
+          return items.reverse();
+      });
+
+hawaiianNativeChartCase
+    .width(1400)
+    .height(800)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(hngrpcase,"Hawaiian Native")
+    .stack(angrpcase,"American Native")
+    .stack(asiangrpcase,"Asian")
+    .stack(hispgrpcase,"Hispanic")
+    .stack(whitegrpcase,"White")
+    .stack(blackgrpcase,"Black")
+    .stack(multigrpcase,"Mutiple Race")
+    .ordinalColors(['#ECF751','#8D6B1D','#8D1D8D','#1D8D37','#e41a1c','#377eb8','#681D8D','#51F7F2'])
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(hawaiianNativeChartCase, 'legendables', function() {
+          var items = hawaiianNativeChartCase._legendables();
+          return items.reverse();
+      });
+
+multipleRaceChartCase
+    .width(1400)
+    .height(800)
+    .margins({top:15 ,right: 20, bottom: 40, left: 60 })
+    .dimension(StateDim)
+    .clipPadding(20)
+    .group(multigrpcase,"Mutiple Race")
+    .stack(angrpcase,"American Native")
+    .stack(asiangrpcase,"Asian")
+    .stack(hispgrpcase,"Hispanic")
+    .stack(whitegrpcase,"White")
+    .stack(blackgrpcase,"Black")
+    .stack(hngrpcase,"Hawaiian Native")
+    .ordinalColors(['#51F7F2','#8D6B1D','#8D1D8D','#1D8D37','#e41a1c','#377eb8','#681D8D','#ECF751'])
+    .ordering(function(d) { return -d.value; })
+    .elasticY(true)
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('State')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .legend(dc.legend().x(1100).y(10).itemHeight(13).gap(5));
+
+dc.override(multipleRaceChartCase, 'legendables', function() {
+          var items = multipleRaceChartCase._legendables();
+          return items.reverse();
+      });
+
+raceYearChartCase
+    .width(700)
+    .height(300)
+    .margins({top:5 ,right: 40, bottom: 40, left: 50 })
+    .dimension(YearDim)
+    .group(racegrpycase)
+    .ordering(function(d) { return d.key; })
+    .elasticY(true)
+    .brushOn(false)
+    .x(d3.scale.ordinal())
+    .xUnits(dc.units.ordinal)
+    .xAxisLabel('Year')
+    .yAxisLabel('New Diagnoses Cases by Race')
+    .renderVerticalGridLines(true)
+    .renderHorizontalGridLines(true);
+
+dataTable1
+    .width(1400)
+    .height(1000)
+    .dimension(YearDim)
+    .group(function(d) { return "List of all cases corresponding to the filters"})
+    .size(500)                           
+    .columns([
+      function(d) { return d["StateAbbrev"]; },
+      function(d) { return d["Year"]; },
+      function(d) { return +d["NewDiagBlackRate"]; },
+      function(d) { return +d["NewDiagWhiteRate"]; },
+      function(d) { return +d["NewDiagAsianRate"]; },
+      function(d) { return +d["NewDiagHispRate"]; },
+      function(d) { return +d["NewDiagAmericanNativeRate"]; },
+      function(d) { return +d["NewDiagHawaiianNativeRate"]; },
+      function(d) { return +d["NewDiagMultipleRaceRate"]; }
+    ])
+    .sortBy(function(d){ return d["StateAbbrev"]; })
+    .order(d3.ascending);
+
+ dataTable2
+    .width(1400)
+    .height(1000)
+    .dimension(YearDim)
+    .group(function(d) { return "List of all cases corresponding to the filters"})
+    .size(500)                           
+    .columns([
+      function(d) { return d["StateAbbrev"]; },
+      function(d) { return d["Year"]; },
+      function(d) { return +d["NewDiagBlackCase"]; },
+      function(d) { return +d["NewDiagWhiteCase"]; },
+      function(d) { return +d["NewDiagAsianCase"]; },
+      function(d) { return +d["NewDiagHispCase"]; },
+      function(d) { return +d["NewDiagAmericanNativeCase"]; },
+      function(d) { return +d["NewDiagHawaiianNativeCase"]; },
+      function(d) { return +d["NewDiagMultipleRaceCase"]; }
+    ])
+    .sortBy(function(d){ return d["StateAbbrev"]; })
+    .order(d3.ascending);
+
+
+visCount.render();
+blackChart.render();
+raceYearChart.render();
+blackChartCase.render();
+raceYearChartCase.render();
+
+});
+
+</script>
+
+
+</body>
+</html>
