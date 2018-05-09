@@ -1,0 +1,19 @@
+<body style="background-color:lightblue;">
+	<h1 style="color:brown;font-family:copperplate;font-size:350%;text-align:center;">
+		User Image Upload
+	</h1>
+
+	<form method="POST" action = "{% url 'user_image' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<p style="color:rgb(150,24,130);font-family:arial;">Upload an image</p>
+			 <input type="file" name="img" id="img" />
+			<br />
+			<br />
+			<input type="submit" value="Upload" name="submit"/ >
+	</form >
+
+	<br />  
+	<form method="POST" action = "{% url 'logged_in' %}">
+		{% csrf_token %}
+		<input type="submit" value="Back to Profile page"/ >
+		</form>

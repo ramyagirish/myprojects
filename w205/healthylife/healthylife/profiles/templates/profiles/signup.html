@@ -1,0 +1,40 @@
+<body style="background-color:lightblue;">
+<h1 style="color:brown;font-family:copperplate;font-size:350%;text-align:center;"> 
+		Welcome to the Signup Page
+	</h1>
+	{% if error %}
+    <h3 style="color:red;font-size:150%;">{{ error }}</h3>
+	{% endif %}
+	{% if error1 %}
+    <h3 style="color:red;font-size:150%;">{{ error1 }}</h3>
+	{% endif %}
+	{% if success %}
+    <h3 style="color:blue;font-size:150%;">{{ success }}</h3>
+	{% endif %}
+	<br/>
+	<br />  
+	<form method="POST" action = "{% url 'home' %}">
+		{% csrf_token %}
+		<input type="submit" value="Back to Home"/ >
+		</form>
+	<fieldset><legend style="color:rgb(150,24,130);font-family:arial;font-size:150%;">User Information</legend>
+		<br />
+		<form method="POST" action = "{% url 'signup' %}">
+			{% csrf_token %}
+			<p style="color:rgb(150,24,130);font-family:arial;">User Name</p>
+			<input type="text" name="username" />
+			<br />
+			<br />
+			<p style="color:rgb(150,24,130);font-family:arial;">Password</p>
+			<input type="password" name="pwd1" />
+			<br />
+			<br />
+			<p style="color:rgb(150,24,130);font-family:arial;">Confirm Password</p>
+			<input type="password" name="pwd2" />
+			<br />
+			<br />
+			<input type="submit" value="Sign Up"/ >
+			<input type="reset" name="reset"/>
+	</fieldset>
+     
+</body>

@@ -1,0 +1,1 @@
+This project was done to evaluate the effect of discount pricing on sales, revenue and profits incurred on items sold by an online retailer on Etsy. For more details on the final results and analysis (done using R) please refer to the report **FinalProject_JeffreyH_RamyaB_RoianaR.pdf**

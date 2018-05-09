@@ -1,0 +1,99 @@
+---
+title: "DA_etsy"
+author: "Ramya Balasubramaniam"
+date: "3/5/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy = T, tidy.opts = list(blank = F, width.cutoff = 60), error = F, message = F, warning = F)
+```
+
+## Loading the data and analyzing the structure
+
+We load the data and create a small dataset on which we could work for calculating the statistical power
+
+```{r}
+library(openxlsx)
+library(Hmisc)
+etsy_data <- read.xlsx("~/downloads/etsy_data/etsy_data_long.xlsx",1,detectDates = T)
+Sales.weekdays <- weekdays(etsy_data$Sale.Date)
+Sales.months <- months(etsy_data$Sale.Date)
+etsy_data_wk_month <- cbind(Sales.weekdays,Sales.months,etsy_data)
+etsy_DA <- etsy_data_wk_month[,c(1:3,10,20)]
+str(etsy_DA)
+describe(etsy_DA)
+hist(etsy_DA$Number.of.Items, xlab = "No. of Items sold per order", main = "Etsy Data Analysis", breaks = 30)
+hist(etsy_DA$Order.Value, xlab = "Sales per order", main = "Etsy Data Analysis", breaks = 30)
+```
+
+##Analysis of Data weekly basis
+
+```{r}
+etsy_week_price <- tapply(etsy_DA$Order.Value, INDEX = etsy_DA$Sales.weekdays, FUN = mean)
+sort(etsy_week_price)
+mean(etsy_week_price)
+sd(etsy_week_price)
+etsy_week_item <- tapply(etsy_DA$Number.of.Items, INDEX = etsy_DA$Sales.weekdays, FUN = mean)
+sort(etsy_week_item)
+mean(etsy_week_item)
+sd(etsy_week_item)
+```
+
+##Analysis of Data monthly basis
+
+```{r}
+etsy_mon_price <- tapply(etsy_DA$Order.Value, INDEX = etsy_DA$Sales.months, FUN = mean)
+sort(etsy_mon_price)
+mean(etsy_mon_price)
+sd(etsy_mon_price)
+etsy_mon_item <- tapply(etsy_DA$Number.of.Items, INDEX = etsy_DA$Sales.months, FUN = mean)
+sort(etsy_mon_item)
+mean(etsy_mon_item)
+sd(etsy_mon_item)
+```
+
+##Analysis od Data in March
+
+```{r}
+etsy_DA_march <- subset(etsy_DA, etsy_DA$Sales.months == "March")
+hist(etsy_DA_march$Number.of.Items, xlab = "No. of items sold", breaks = 20,main = "Etsy data March")
+axis(1,c(0:4,6:9,11:14,16:19))
+table(etsy_DA_march$Number.of.Items)
+hist(etsy_DA_march$Order.Value, xlab = "Sales per order", breaks = 25,main = "Etsy data March")
+axis(1,seq(10,40,by = 10))
+axis(1,seq(60,90,by = 10))
+axis(1,seq(110,140,by = 10))
+axis(1,seq(160,170,by = 10))
+etsy_march_price <- tapply(etsy_DA_march$Order.Value, INDEX = etsy_DA_march$Sales.weekdays, FUN = mean)
+sort(etsy_march_price)
+mean(etsy_march_price)
+sd(etsy_march_price)
+etsy_march_item <- tapply(etsy_DA_march$Number.of.Items, INDEX = etsy_DA_march$Sales.weekdays, FUN = mean)
+sort(etsy_march_item)
+mean(etsy_march_item)
+sd(etsy_march_item)
+```
+
+###Comparison of weekly data for March and entire bimonthly data
+
+```{r}
+sort(etsy_march_item)
+sort(etsy_week_item)
+sort(etsy_march_price)
+sort(etsy_week_price)
+
+etsy_march <- subset(etsy_DA, etsy_DA$Sales.months == "March")
+dte = seq(as.Date("2016-03-01"), as.Date("2016-03-07"), by=1)
+etsy_march1 <- subset(etsy_march, etsy_march$Sale.Date %in% dte)
+dte = seq(as.Date("2016-03-08"), as.Date("2016-03-14"), by=1)
+etsy_march2 <- subset(etsy_march, etsy_march$Sale.Date %in% dte)
+dte = seq(as.Date("2016-03-15"), as.Date("2016-03-21"), by=1)
+etsy_march3 <- subset(etsy_march, etsy_march$Sale.Date %in% dte)
+dte = seq(as.Date("2016-03-22"), as.Date("2016-03-28"), by=1)
+etsy_march4 <- subset(etsy_march, etsy_march$Sale.Date %in% dte)
+tapply(etsy_march1$Order.Value, INDEX = etsy_march1$Sales.months, FUN = sum)
+tapply(etsy_march2$Order.Value, INDEX = etsy_march2$Sales.months, FUN = sum)
+tapply(etsy_march3$Order.Value, INDEX = etsy_march3$Sales.months, FUN = sum)
+tapply(etsy_march4$Order.Value, INDEX = etsy_march4$Sales.months, FUN = sum)
+```

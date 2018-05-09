@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+   <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+   <!--link rel="stylesheet" type="text/css" media="all" href="style.css"-->
+   {% load static %}
+  <link rel="stylesheet" type="text/css" media="all" href="{% static 'profiles/style.css' %}">
+  <script type="text/javascript" src="{% static 'profiles/js/jquery-1.9.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'profiles/js/jquery.autocomplete.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'profiles/js/food-autocomplete.js' %}"></script>
+  <script type="text/javascript" src="{% static 'profiles/js/food1-autocomplete.js' %}"></script>
+  <script type="text/javascript" src="{% static 'profiles/js/food2-autocomplete.js' %}"></script>
+   <script type="text/javascript" src="{% static 'profiles/js/food3-autocomplete.js' %}"></script>
+ 
+
+</head>
+
+<body style="background-color:lightblue;">
+  <h1 style="color:brown;font-family:copperplate;font-size:350%;text-align:center;"> <b>Welcome {{ profile.user_name }} ! </b></h1>
+   <br />  
+  <form method="POST" action = "{% url 'logged_in' %}">
+    {% csrf_token %}
+    <input type="submit" value="Back to Profile page"/ >
+    </form>
+  <div id="w">
+    <div id="content">
+      <div id="searchfield">
+        <form method = "POST" action = "{% url 'searchtool' %}">
+          {% csrf_token %}
+          <p style="color:blue;font-family:arial;">Instructions: Please enter your Food Items in order(From Top) and mention the items consumed for one meal only. You could leave some food item fields empty, you could also use additional forms to enter more items for the same meal</p>
+          <br />
+          <p style="color:rgb(150,24,130);font-family:arial;">Enter date for which data is provided</p>
+         <input type="date" name="entry_date" />
+         <br />
+          <p style="color:rgb(150,24,130);font-family:arial;">Food Item 1</p>
+          <input type="text" name="currency" class="biginput" id="autocomplete"/> 
+          <p style="color:rgb(150,24,130);font-family:arial;">serving size</p>
+          <input type="text" name="bk_size1" />
+          <br />
+          <br />
+          <p style="color:rgb(150,24,130);font-family:arial;">Food Item 2</p>
+          <input type="text" name="currency1" class="biginput" id="autocomplete1"/> 
+          <p style="color:rgb(150,24,130);font-family:arial;">serving size</p>
+          <input type="text" name="bk_size2" />
+          <br />
+          <br />
+          <p style="color:rgb(150,24,130);font-family:arial;">Food Item 3</p>
+          <input type="text" name="currency2" class="biginput" id="autocomplete2"/> 
+          <p style="color:rgb(150,24,130);font-family:arial;">serving size</p>
+          <input type="text" name="bk_size3" />
+          <br />
+          <br />
+          <p style="color:rgb(150,24,130);font-family:arial;">Food Item 4</p>
+          <input type="text" name="currency3" class="biginput" id="autocomplete3"/> 
+          <p style="color:rgb(150,24,130);font-family:arial;">serving size</p>
+          <input type="text" name="bk_size4" />
+          <br />
+          <br />
+          <p style="color:rgb(150,24,130);font-family:arial;">Meal Type:</p>
+           <input type="radio" name="mealtype" value='B' checked> Breakfast<br>
+           <input type="radio" name="mealtype" value='L' > Lunch<br>
+           <input type="radio" name="mealtype" value='D' > Dinner<br>
+          <input type ="submit" name = "submit" value ="Food"/> </form>
+      </div><!-- @end #searchfield -->
+      <div id="outputbox">
+        <p id="outputcontent">Food Item1.</p>
+        <p id="outputcontent1">Food Item2.</p>
+        <p id="outputcontent2">Food Item3.</p>
+        <p id="outputcontent3">Food Item4.</p>
+      </div>
+    </div><!-- @end #content -->
+  </div><!-- @end #w -->
+
+</body>
+</html>

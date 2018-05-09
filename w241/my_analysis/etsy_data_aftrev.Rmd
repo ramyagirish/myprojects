@@ -1,0 +1,204 @@
+---
+title: "Etsy Data After Review"
+author: "Ramya Balasubramaniam"
+date: "4/3/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = F, message = F, warning = F, tidy = T, tidy.opts = list(blank = F, width.cutoff = 60))
+```
+
+##Loading the data used after treatment
+
+```{r}
+etsy_data1 <- read.csv(file = "~/downloads/etsy_data/etsy_aft_treat1.csv")
+etsy_data2 <- read.csv(file = "~/downloads/etsy_data/etsy_aft_treat2.csv")
+names(etsy_data1)
+names(etsy_data2)
+etsysales1 <- etsy_data1[,c("Sale.Date","Quantity","Price","Buyer","Item.Total")]
+unique(etsysales1$Sale.Date)##Ensuring data is from treatment week
+table(etsysales1$Price)
+aggregate(x = etsysales1[,c(2:3,5)],by = list(etsysales1$Buyer), FUN = sum)##number of items & order value per buyer
+etsy1_totsale_dist <- sum(etsysales1[,2]* etsysales1[,3])## total sales in terms of discounted price
+etsy1_totsale_dist
+etsy1_totsale_real <- etsy1_totsale_dist *(100/80)## total sales in terms of actual price
+etsy1_totsale_real
+```
+
+##Loading the data used before treatment
+
+```{r}
+etsy_data3 <- read.csv(file = "~/downloads/etsy_data/etsy_bef_treat1.csv")
+etsy_data4 <- read.csv(file = "~/downloads/etsy_data/etsy_bef_treat2.csv")
+names(etsy_data3)
+names(etsy_data4)
+date.int <- c("03/19/17","03/18/17", "03/17/17", "03/16/17", "03/15/17","03/14/17", "03/13/17")
+etsysales2 <- etsy_data3[which(etsy_data3$Sale.Date %in% date.int),c("Sale.Date","Quantity","Price","Buyer","Item.Total")]
+unique(etsysales2$Sale.Date)
+table(etsysales2$Price)
+aggregate(x = etsysales2[,c(2:3,5)],by = list(etsysales2$Buyer), FUN = sum)##number of items & order value per buyer
+etsy2_totsale_real <- sum(etsysales2[,2]* etsysales2[,3])## total sales in terms of actual price
+etsy2_totsale_real
+```
+
+**Observations:** 1. Sales of items of lower price, in terms of the number has increased noticibly.
+
+2. The total sales during the control week was 325.71 and the total sales during the treatment week was 566.19. This is calculated in terms of actual prices.
+
+3. The number of sales of the items that were not discounted remains the same (These are the set of already discounted items).
+
+##Analysis of another control week 
+
+```{r}
+date.int <- c("03/12/17","03/11/17", "03/10/17", "03/09/17", "03/08/17","03/07/17", "03/06/17")
+etsysales3 <- etsy_data3[which(etsy_data3$Sale.Date %in% date.int),c("Sale.Date","Quantity","Price","Buyer","Item.Total")]
+table(etsysales3$Price)
+unique(etsysales3$Sale.Date)
+aggregate(x = etsysales3[,c(2:3,5)],by = list(etsysales3$Buyer), FUN = sum)##number of items & order value per buyer
+etsy3_totsale_real <- sum(etsysales3[,2]* etsysales3[,3])## total sales in terms of actual price
+etsy3_totsale_real
+```
+
+**Observations:** The trend in the control weeks remains the same.
+
+##Analysis of age data over control and treatment weeks
+
+```{r, fig.width = 8}
+data.age <- read.csv(file= "~/downloads/etsy_data/GA_age.csv")
+head(data.age)
+rownames(data.age)<- data.age[,1]
+data.age <- data.age[,-c(1)]
+head(data.age)
+data.age.control <- data.age[,c(1:7)]
+data.age.treat <- data.age[,c(8:14)]
+plot(c(1:7),data.age.control[1,],type = "l",main = "Distribution of sessions across Age groups: control", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.age.control[1:4,]), max(data.age.control[1:4,])),col = "red")
+points(c(1:7),data.age.control[1,], pch = 20, col = "red")
+lines(c(1:7),data.age.control[2,],type = "l",col = "blue")
+points(c(1:7),data.age.control[2,], pch = 20, col = "blue")
+lines(c(1:7),data.age.control[3,],type = "l", col = "green")
+points(c(1:7),data.age.control[3,], pch = 20, col = "green")
+lines(c(1:7),data.age.control[4,],type = "l", col = "orange")
+points(c(1:7),data.age.control[4,], pch = 20, col = "orange")
+legend(x=5, y=50, legend = c("25-34", "18-24", "35-44", "45-54"), col = c("red","blue", "green", "orange"), lwd = 2, bty = "n", cex = 0.75)
+plot(c(1:7),data.age.treat[1,],type = "l",main = "Distribution of sessions across Age groups: treatment", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.age.treat[1:4,]), max(data.age.treat[1:4,])),col = "red")
+points(c(1:7),data.age.treat[1,], pch = 20, col = "red")
+lines(c(1:7),data.age.treat[2,],type = "l",col = "blue")
+points(c(1:7),data.age.treat[2,], pch = 20, col = "blue")
+lines(c(1:7),data.age.treat[3,],type = "l", col = "green")
+points(c(1:7),data.age.treat[3,], pch = 20, col = "green")
+lines(c(1:7),data.age.treat[4,],type = "l", col = "orange")
+points(c(1:7),data.age.treat[4,], pch = 20, col = "orange")
+legend(x=5, y=50, legend = c("25-34", "18-24", "35-44", "45-54"), col = c("red","blue", "green", "orange"), lwd = 2, bty = "n", cex = 0.75)
+```
+
+We check the agewise distributions in the treatment and control groups by synthesizing a dataset that reflects the above informattion imported from Google Analytics.
+
+###Creating Two vectors representing age distribuions
+
+We create two vectors having the age distributions observed during the control and treatment weeks and conducting Wilcox.test for the different age groups. We use Wilcoxon test as it is independent of degree of freedom and underlying distribution.
+
+```{r}
+data.age <- rbind(data.age[2,],data.age[1,],data.age[3:5,])
+data.age.control <- data.age[,c(1:7)]
+data.age.treat <- data.age[,c(8:14)]
+wilcox.test(as.numeric(data.age.control[1,]),as.numeric(data.age.treat[1,]))## Distribution among visitors in age group 18-24 yrs
+wilcox.test(as.numeric(data.age.control[2,]),as.numeric(data.age.treat[2,]))## Distribution among visitors in age group 25-34 yrs
+wilcox.test(as.numeric(data.age.control[3,]),as.numeric(data.age.treat[3,]))## Distribution among visitors in age group 35-44 yrs
+wilcox.test(as.numeric(data.age.control[4,]),as.numeric(data.age.treat[4,]))## Distribution among visitors in age group 45-54 yrs
+wilcox.test(as.numeric(data.age.control[5,]),as.numeric(data.age.treat[5,]))## Distribution among visitors in all age groups 
+```
+
+Thus,the above tests conducted on each age group reveals that the distribution of the visitors in the age-groups remains identical during the control and treatment weeks.
+
+##Analysis of gender data over control and treatment weeks
+
+```{r, fig.width = 8}
+data.sex <- read.csv(file= "~/downloads/etsy_data/GA_gender.csv")
+head(data.sex)
+rownames(data.sex)<- data.sex[,1]
+data.sex <- data.sex[,-c(1)]
+head(data.sex)
+data.sex.control <- data.sex[,c(1:7)]
+data.sex.treat <- data.sex[,c(8:14)]
+plot(c(1:7),data.sex.control[1,],type = "l",main = "Distribution of sessions across gender groups: control", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.sex.control[1:2,]), max(data.sex.control[1:2,])),col = "red")
+points(c(1:7),data.sex.control[1,], pch = 20, col = "red")
+lines(c(1:7),data.sex.control[2,],type = "l",col = "blue")
+points(c(1:7),data.sex.control[2,], pch = 20, col = "blue")
+legend(x=5, y=100, legend = c("Female", "male"), col = c("red","blue"), lwd = 2, bty = "n", cex = 0.75)
+plot(c(1:7),data.sex.treat[1,],type = "l",main = "Distribution of sessions across gender groups: treatment", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.sex.treat[1:2,]), max(data.sex.treat[1:2,])),col = "red")
+points(c(1:7),data.sex.treat[1,], pch = 20, col = "red")
+lines(c(1:7),data.sex.treat[2,],type = "l",col = "blue")
+points(c(1:7),data.sex.treat[2,], pch = 20, col = "blue")
+legend(x=5, y=100, legend = c("Female", "male"), col = c("red","blue"), lwd = 2, bty = "n", cex = 0.75)
+```
+
+###Creating Two vectors representing gender distribuions
+
+We create two vectors having the gender distributions observed during the control and treatment weeks and conducting Wilcox.test for the different gender groups. We use Wilcoxon test as it is independent of degree of freedom and underlying distribution.
+
+```{r}
+data.sex.control <- data.sex[,c(1:7)]
+data.sex.treat <- data.sex[,c(8:14)]
+wilcox.test(as.numeric(data.sex.control[1,]),as.numeric(data.sex.treat[1,]))## Distribution among females
+wilcox.test(as.numeric(data.sex.control[2,]),as.numeric(data.sex.treat[2,]))## Distribution among malesrow
+wilcox.test(as.numeric(data.sex.control[3,]),as.numeric(data.sex.treat[3,]))## Distribution among all visitors
+```
+
+Thus,the above tests conducted on each gender group reveals that the distribution of females and males remains identical during the control and treatment weeks.
+
+##Analysis of data country wise for treatment & control weeks 
+
+Since we are having 67 different countries/ categories we use Matched pair Wilconxon test to see if the distribution is identical.
+
+```{r}
+data.country.control <- read.csv(file= "~/downloads/etsy_data/GA_country_control.csv")
+data.country.treat<- read.csv(file= "~/downloads/etsy_data/GA_country_treat.csv")
+country <- intersect(data.country.control$Country,data.country.treat$Country)
+data1 <- subset(data.country.control, data.country.control$Country %in% country)
+data2 <- subset(data.country.treat, data.country.treat$Country %in% country)
+data1 <- data1[order(data1$Country),1:2]
+data2 <- data2[order(data2$Country),1:2]
+data.country <- cbind(data1,data2$Sessions)
+names(data.country) <- c("Country", "Sess.control", "Sess.treat")
+head(data.country)
+wilcox.test(data.country$Sess.control,data.country$Sess.treat, paired = T)
+```
+
+We observe that the distributions across countries are identical for the two weeks.
+
+##Analysis of data langauge wise for treatment & control weeks 
+
+Since we are having 58 different countries/ categories we use Matched pair Wilcoxon test to see if the distribution is identical.
+
+```{r}
+data.lang.control <- read.csv(file= "~/downloads/etsy_data/GA_lang_control.csv")
+data.lang.treat<- read.csv(file= "~/downloads/etsy_data/GA_lang_treat.csv")
+lang <- intersect(data.lang.control$Language,data.lang.treat$Language)
+data1 <- subset(data.lang.control, data.lang.control$Language %in% lang)
+data2 <- subset(data.lang.treat, data.lang.treat$Language %in% lang)
+data1 <- data1[order(data1$Language),1:2]
+data2 <- data2[order(data2$Language),1:2]
+data.lang <- cbind(data1,data2$Sessions)
+names(data.lang) <- c("Langauge", "Sess.control", "Sess.treat")
+head(data.lang)
+wilcox.test(data.lang$Sess.control,data.lang$Sess.treat, paired = T)
+```
+
+##Analysis of data affinity wise for treatment & control weeks 
+
+We observe that the distributions across affinity are identical for the two weeks.
+
+```{r}
+data.aff.control <- read.csv(file= "~/downloads/etsy_data/GA_Affinity_control.csv")
+data.aff.treat <- read.csv(file= "~/downloads/etsy_data/GA_Affinity_treat.csv")
+aff <- intersect(data.aff.control$Affinity.Category..reach.,data.aff.treat$Affinity.Category..reach.)
+data1 <- subset(data.aff.control, data.aff.control$Affinity.Category..reach. %in% aff)
+data2 <- subset(data.aff.treat, data.aff.treat$Affinity.Category..reach. %in% aff)
+data1 <- data1[order(data1$Affinity.Category..reach.),1:2]
+data2 <- data2[order(data2$Affinity.Category..reach.),1:2]
+data.aff <- cbind(data1,data2$Sessions)
+names(data.aff) <- c("Affinity", "Sess.control", "Sess.treat")
+head(data.aff)
+wilcox.test(data.aff$Sess.control,data.aff$Sess.treat, paired = T)
+```

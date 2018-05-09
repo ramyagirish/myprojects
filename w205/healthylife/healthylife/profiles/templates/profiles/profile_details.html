@@ -1,0 +1,73 @@
+ <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+   
+ 
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Healthy Life</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+     
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  	<body style="background-color:lightblue;">
+  		<div class="page-header">
+<h1 style="color:brown;font-family:copperplate;font-size:300%;text-align:center;"><b> Welcome {{ profile.user_name }} ! </b></h1>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+  <li role="presentation"><a href="{% url 'logout_view' %}">Logout</a></li>
+  <li role="presentation"><a href="{% url 'index' %}">UserDiet Log</a></li>
+  <li role="presentation"><a href="{% url 'index1' %}">UserWeight Log</a></li>
+  <li role="presentation"><a href="{% url 'index2' %}">Upload Image</a></li>
+  </ul>
+<p id="demo" style="color:blue;font-family:garamond;font-size:150%;"><b></b></p> 
+<script>
+document.getElementById("demo").innerHTML = Date();
+</script>
+<br>
+<br>
+	<img src= {{ profile.img.url }} alt="No Image loaded" class="img-responsive center-block" style="max-height:250px;">
+</br>
+<fieldset>
+		<legend style="color:rgb(150,24,130);font-family:arial;"><b>User Information:</b></legend>
+		<h3 style="color:brown;font-family:courier;font-size:150%;"><b>Name: {{ profile.first_name }} {{ profile.last_name }}</b></h3>
+		<br />
+		<h3 style="color:brown;font-family:courier;font-size:150%;"><b>Date of Birth:{{ profile.DOB }}</b></h3>
+		<br />
+		<h3 style="color:brown;font-family:courier;font-size:150%;"><b>Height(cm):{{ profile.height }}</b></h3>
+    <br />
+    <br />
+    <h3 style="color:brown;font-family:courier;font-size:200%;text-align:center;"><b>Plot of Total Calorie</b></h3>
+    <br />
+    <img src="/pics/media/plot_{{profile.user_name}}_cal.png" alt="No Image uploaded" class="img-responsive center-block" style="max-height:1000px;"> 
+    <br />
+    <br />
+    <h3 style="color:brown;font-family:courier;font-size:200%;text-align:center;"><b>Plot of Protein</b></h3> 
+    <br /> 
+    <img src="/pics/media/plot_{{profile.user_name}}_prot.png" alt="No Image uploaded" class="img-responsive center-block" style="max-height:1000px;">
+    <br />
+    <br />
+    <h3 style="color:brown;font-family:courier;font-size:200%;text-align:center;"><b>Plot of Total Fat</b></h3>
+    <br />
+    <img src="/pics/media/plot_{{profile.user_name}}_lipid.png" alt="No Image uploaded" class="img-responsive center-block" style="max-height:1000px;">
+    <br />
+    <br />
+    <h3 style="color:brown;font-family:courier;font-size:200%;text-align:center;"><b>Plot of BMI</b></h3>
+    <br />
+    <img src="/pics/media/plot_{{profile.user_name}}_bmi.png" alt="No Image uploaded" class="img-responsive center-block" style="max-height:1000px;">
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </body>
+</html>

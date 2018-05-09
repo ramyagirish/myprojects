@@ -1,0 +1,441 @@
+---
+title: "Etsy Data Final Analysis"
+author: "Ramya Balasubramaniam"
+date: "4/15/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = F, message = F, warning = F, tidy = T, tidy.opts = list(blank = F, width.cutoff = 60))
+```
+
+## Preparing the Data
+
+```{r}
+etsy_data1 <- read.csv(file = "~/downloads/etsy_data/etsy_aft_treat1.csv")
+names(etsy_data1)
+etsysales1 <- etsy_data1[,c("Sale.Date","Quantity","Price","Buyer","Item.Total")]
+unique(etsysales1$Sale.Date)##Ensuring data is from treatment week
+etsysales1[etsysales1$Sale.Date == "03/20/17","Sale.Date"] <- "3/20/17" 
+table(etsysales1$Price)
+etsysales1_buyer <- aggregate(x = etsysales1[,c(2:3,5)],by = list(etsysales1$Buyer), FUN = sum)##number of items & order value per buyer
+etsysales1_date <- aggregate(x = etsysales1[,c(2:3,5)],by = list(etsysales1$Sale.Date), FUN = sum)##number of items & order value per day
+etsy1_totsale <- sum(etsysales1[,2]* etsysales1[,3])## total sales in terms of discounted price
+etsy1_totsale
+etsy_data2 <- read.csv(file = "~/downloads/etsy_data/etsy_bef_treat1.csv")
+names(etsy_data2)
+date.int <- c("03/19/17","03/18/17", "03/17/17", "03/16/17", "03/15/17","03/14/17", "03/13/17")
+etsysales2 <- etsy_data2[which(etsy_data2$Sale.Date %in% date.int),c("Sale.Date","Quantity","Price","Buyer","Item.Total")]
+unique(etsysales2$Sale.Date)
+table(etsysales2$Price)
+etsysales2_buyer <- aggregate(x = etsysales2[,c(2:3,5)],by = list(etsysales2$Buyer), FUN = sum)##number of items & order value per buyer
+etsysales2_date <- aggregate(x = etsysales2[,c(2:3,5)],by = list(etsysales2$Sale.Date), FUN = sum)##number of items & order value per day
+etsy2_totsale <- sum(etsysales2[,2]* etsysales2[,3])## total sales in terms of actual price
+etsy2_totsale
+etsy_data3 <- read.csv(file = "~/downloads/etsy_data/etsy_final1.csv")
+names(etsy_data3)
+date.int <- c("03/27/17","03/28/17", "03/29/17", "03/30/17", "03/31/17","04/01/17", "04/02/17")
+etsysales3 <- etsy_data3[which(etsy_data3$Sale.Date %in% date.int),c("Sale.Date","Quantity","Price","Buyer","Item.Total")]
+unique(etsysales3$Sale.Date)
+table(etsysales3$Price)
+etsysales3_buyer <- aggregate(x = etsysales3[,c(2:3,5)],by = list(etsysales3$Buyer), FUN = sum)##number of items & order value per buyer
+etsysales3_date <- aggregate(x = etsysales3[,c(2:3,5)],by = list(etsysales3$Sale.Date), FUN = sum)##number of items & order value per day
+etsy3_totsale <- sum(etsysales3[,2]* etsysales3[,3])## total sales in terms of actual price
+etsy3_totsale
+etsy1_totquan <- sum(etsysales1[,2])
+etsy2_totquan <- sum(etsysales2[,2])
+etsy3_totquan <- sum(etsysales3[,2])
+```
+
+
+##Tests of significance
+
+```{r}
+a <- c(47,0,4,4,0)
+b <- c(23,0,1,4,1)
+c <- c(12,0,4,1,1)
+wilcox.test(a,b,paired = T)
+wilcox.test(b,c,paired = T) ## this was for number of units sold
+
+e1 <- data.frame(date = c(etsysales2[,1],etsysales1[,1]), price = c(etsysales2[,2]* etsysales2[,3],etsysales1[,2]* etsysales1[,3]), quantity = c(etsysales2[,2],etsysales1[,2]))
+po.control <- e1$price 
+po.treat <- po.control
+treatment <- c(rep(x = 0, each = 32),rep(x = 1, each = 62))
+ate <- mean(po.treat[treatment == 1]) - mean(po.control[treatment == 0])
+etsy_dist1 <- vector(mode = "numeric", length = 10000)
+for (i in 1:10000){
+treat <- sample(x = treatment, size = 94)
+etsy_dist1[i] <- mean(po.treat[treat == 1]) - mean(po.control[treat == 0])
+}
+plot(density(etsy_dist1), main = "Sharp null hypothesis dist. of Sales")
+abline(v = ate, lwd = 2, col = "red")
+e1.ttest <- t.test(e1[1:32,"price"],e1[33:94,"price"])
+data.frame(SO_TR = mean(po.treat[treatment == 1]), SO_C1 = mean(po.control[treatment == 0]),p_val_s = sum(abs(etsy_dist1)>= abs(ate))/length(etsy_dist1), p_val_t = e1.ttest$p.value)
+e2 <- data.frame(date = c(etsysales3[,1],etsysales1[,1]), price = c(etsysales3[,2]* etsysales3[,3],etsysales1[,2]* etsysales1[,3]), quantity = c(etsysales3[,2],etsysales1[,2]))
+po.control <- e2$price 
+po.treat <- po.control
+treatment <- c(rep(x = 0, each = 18),rep(x = 1, each = 62))
+ate1 <- mean(po.treat[treatment == 1]) - mean(po.control[treatment == 0])
+etsy_dist2 <- vector(mode = "numeric", length = 10000)
+for (i in 1:10000){
+treat <- sample(x = treatment, size = 80)
+etsy_dist2[i] <- mean(po.treat[treat == 1]) - mean(po.control[treat == 0])
+}
+plot(density(etsy_dist2), main = "Sharp null hypothesis dist. of Sales")
+abline(v = ate1, lwd = 2, col = "red")
+e2.ttest <- t.test(e2[1:18,"price"],e1[19:80,"price"])
+data.frame(SO_TR = mean(po.treat[treatment == 1]), SO_C2 = mean(po.control[treatment == 0]),p_val_s = sum(abs(etsy_dist2)>= abs(ate1))/length(etsy_dist2), p_val_t = e2.ttest$p.value)
+e3 <- aggregate(x = etsysales2[,2] * etsysales2[,3],by = list(etsysales2$Buyer), FUN = sum)
+e4 <- aggregate(x = etsysales1[,2] * etsysales1[,3],by = list(etsysales1$Buyer), FUN = sum)
+po.control <- c(e3$x,e4$x)
+po.treat <- po.control
+treatment <- c(rep(x = 0, each = 21),rep(x = 1, each = 18))
+ate2 <- mean(po.treat[treatment == 1]) - mean(po.control[treatment == 0])
+etsy_dist3 <- vector(mode = "numeric", length = 10000)
+for (i in 1:10000){
+treat <- sample(x = treatment, size = 39)
+etsy_dist3[i] <- mean(po.treat[treat == 1]) - mean(po.control[treat == 0])
+}
+plot(density(etsy_dist3), main = "Sharp null hypothesis dist. of OVB")
+abline(v = ate2, lwd = 2, col = "red")
+e3.ttest <- t.test(e3$x,e4$x)
+data.frame(OVB_TR = mean(po.treat[treatment == 1]), OVB_C1 = mean(po.control[treatment == 0]),p_val_s = sum(abs(etsy_dist3)>= abs(ate2))/length(etsy_dist3), p_val_t = e3.ttest$p.value)
+e5 <- aggregate(x = etsysales3[,2] * etsysales3[,3],by = list(etsysales3$Buyer), FUN = sum)
+e6 <- aggregate(x = etsysales1[,2] * etsysales1[,3],by = list(etsysales1$Buyer), FUN = sum)
+po.control <- c(e5$x,e6$x)
+po.treat <- po.control
+treatment <- c(rep(x = 0, each = 14),rep(x = 1, each = 18))
+ate3 <- mean(po.treat[treatment == 1]) - mean(po.control[treatment == 0])
+etsy_dist4 <- vector(mode = "numeric", length = 10000)
+for (i in 1:10000){
+treat <- sample(x = treatment, size = 32)
+etsy_dist4[i] <- mean(po.treat[treat == 1]) - mean(po.control[treat == 0])
+}
+plot(density(etsy_dist4), main = "Sharp null hypothesis dist. of OVB")
+abline(v = ate3, lwd = 2, col = "red")
+e4.ttest <- t.test(e5$x,e6$x)
+data.frame(OVB_TR = mean(po.treat[treatment == 1]), OVB_C2 = mean(po.control[treatment == 0]),p_val_s = sum(abs(etsy_dist4)>= abs(ate3))/length(etsy_dist4), p_val_t = e4.ttest$p.value)
+e7 <- aggregate(x = etsysales2[,2],by = list(etsysales2$Buyer), FUN = sum)
+e8 <- aggregate(x = etsysales1[,2],by = list(etsysales1$Buyer), FUN = sum)
+po.control <- c(e7$x,e8$x)
+po.treat <- po.control
+treatment <- c(rep(x = 0, each = 21),rep(x = 1, each = 18))
+ate4 <- mean(po.treat[treatment == 1]) - mean(po.control[treatment == 0])
+etsy_dist5 <- vector(mode = "numeric", length = 10000)
+for (i in 1:10000){
+treat <- sample(x = treatment, size = 39)
+etsy_dist5[i] <- mean(po.treat[treat == 1]) - mean(po.control[treat == 0])
+}
+plot(density(etsy_dist5), main = "Sharp null hypothesis dist. of OQB")
+abline(v = ate4, lwd = 2, col = "red")
+e5.ttest <- t.test(e7$x,e8$x)
+data.frame(OVB_TR = mean(po.treat[treatment == 1]), OVB_C2 = mean(po.control[treatment == 0]),p_val_s = sum(abs(etsy_dist5)>= abs(ate4))/length(etsy_dist5), p_val_t = e5.ttest$p.value)
+e9 <- aggregate(x = etsysales3[,2],by = list(etsysales3$Buyer), FUN = sum)
+e10 <- aggregate(x = etsysales1[,2],by = list(etsysales1$Buyer), FUN = sum)
+po.control <- c(e9$x,e10$x)
+po.treat <- po.control
+treatment <- c(rep(x = 0, each = 14),rep(x = 1, each = 18))
+ate5 <- mean(po.treat[treatment == 1]) - mean(po.control[treatment == 0])
+etsy_dist6 <- vector(mode = "numeric", length = 10000)
+for (i in 1:10000){
+treat <- sample(x = treatment, size = 32)
+etsy_dist6[i] <- mean(po.treat[treat == 1]) - mean(po.control[treat == 0])
+}
+plot(density(etsy_dist6), main = "Sharp null hypothesis dist. of OQB")
+abline(v = ate5, lwd = 2, col = "red")
+e6.ttest <- t.test(e9$x,e10$x)
+data.frame(OVB_TR = mean(po.treat[treatment == 1]), OVB_C2 = mean(po.control[treatment == 0]),p_val_s = sum(abs(etsy_dist6)>= abs(ate5))/length(etsy_dist6), p_val_t = e6.ttest$p.value)
+```
+
+##Analysis of age data over control and treatment weeks
+
+```{r, fig.width = 8}
+data.age <- read.csv(file= "~/downloads/etsy_data/GA_age.csv")
+data.age1 <- read.csv(file= "~/downloads/etsy_data/GA_age_C2.csv")
+head(data.age)
+head(data.age1)
+rownames(data.age)<- data.age[,1]
+data.age <- data.age[,-c(1)]
+rownames(data.age1)<- data.age1[,1]
+data.age1 <- data.age1[,-c(1)]
+head(data.age)
+head(data.age1)
+data.age.control <- data.age[,c(1:7)]
+data.age.treat <- data.age[,c(8:14)]
+plot(c(1:7),data.age.control[1,],type = "l",main = "Distribution of sessions across Age groups: control", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.age.control[1:4,]), max(data.age.control[1:4,])),col = "red")
+points(c(1:7),data.age.control[1,], pch = 20, col = "red")
+lines(c(1:7),data.age.control[2,],type = "l",col = "blue")
+points(c(1:7),data.age.control[2,], pch = 20, col = "blue")
+lines(c(1:7),data.age.control[3,],type = "l", col = "green")
+points(c(1:7),data.age.control[3,], pch = 20, col = "green")
+lines(c(1:7),data.age.control[4,],type = "l", col = "orange")
+points(c(1:7),data.age.control[4,], pch = 20, col = "orange")
+legend(x=5, y=50, legend = c("25-34", "18-24", "35-44", "45-54"), col = c("red","blue", "green", "orange"), lwd = 2, bty = "n", cex = 0.75)
+plot(c(1:7),data.age.treat[1,],type = "l",main = "Distribution of sessions across Age groups: treatment", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.age.treat[1:4,]), max(data.age.treat[1:4,])),col = "red")
+points(c(1:7),data.age.treat[1,], pch = 20, col = "red")
+lines(c(1:7),data.age.treat[2,],type = "l",col = "blue")
+points(c(1:7),data.age.treat[2,], pch = 20, col = "blue")
+lines(c(1:7),data.age.treat[3,],type = "l", col = "green")
+points(c(1:7),data.age.treat[3,], pch = 20, col = "green")
+lines(c(1:7),data.age.treat[4,],type = "l", col = "orange")
+points(c(1:7),data.age.treat[4,], pch = 20, col = "orange")
+legend(x=5, y=50, legend = c("25-34", "18-24", "35-44", "45-54"), col = c("red","blue", "green", "orange"), lwd = 2, bty = "n", cex = 0.75)
+plot(c(1:7),data.age1[1,],type = "l",main = "Distribution of sessions across Age groups: control2", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.age1[1:4,]), max(data.age1[1:4,])),col = "red")
+points(c(1:7),data.age1[1,], pch = 20, col = "red")
+lines(c(1:7),data.age1[2,],type = "l",col = "blue")
+points(c(1:7),data.age1[2,], pch = 20, col = "blue")
+lines(c(1:7),data.age1[3,],type = "l", col = "green")
+points(c(1:7),data.age1[3,], pch = 20, col = "green")
+lines(c(1:7),data.age1[4,],type = "l", col = "orange")
+points(c(1:7),data.age1[4,], pch = 20, col = "orange")
+legend(x=6, y=40, legend = c("25-34", "18-24", "35-44", "45-54"), col = c("red","blue", "green", "orange"), lwd = 2, bty = "n", cex = 0.75)
+data.age <- rbind(data.age[2,],data.age[1,],data.age[3:5,])
+data.age.control <- data.age[,c(1:7)]
+data.age.treat <- data.age[,c(8:14)]
+data.age1 <- rbind(data.age1[2,],data.age1[1,],data.age1[3:5,])
+rowSums(data.age.control)
+rowSums(data.age.treat)
+rowSums(data.age1)
+wilcox.test(as.numeric(data.age.control[1,]),as.numeric(data.age.treat[1,]))## Distribution among visitors in age group 18-24 yrs
+t.test(as.numeric(data.age.control[1,]),as.numeric(data.age.treat[1,]))## Distribution among visitors in age group 18-24 yrs
+wilcox.test(as.numeric(data.age1[1,]),as.numeric(data.age.treat[1,]))## Distribution among visitors in age group 18-24 yrs
+t.test(as.numeric(data.age1[1,]),as.numeric(data.age.treat[1,]))## Distribution among visitors in age group 18-24 yrs
+wilcox.test(as.numeric(data.age.control[2,]),as.numeric(data.age.treat[2,]))## Distribution among visitors in age group 25-34 yrs
+t.test(as.numeric(data.age.control[2,]),as.numeric(data.age.treat[2,]))## Distribution among visitors in age group 25-34 yrs
+wilcox.test(as.numeric(data.age1[2,]),as.numeric(data.age.treat[2,]))## Distribution among visitors in age group 25-34 yrs
+t.test(as.numeric(data.age1[2,]),as.numeric(data.age.treat[2,]))## Distribution among visitors in age group 25-34 yrs
+wilcox.test(as.numeric(data.age.control[3,]),as.numeric(data.age.treat[3,]))## Distribution among visitors in age group 35-44 yrs
+t.test(as.numeric(data.age.control[3,]),as.numeric(data.age.treat[3,]))## Distribution among visitors in age group 35-44 yrs
+wilcox.test(as.numeric(data.age1[3,]),as.numeric(data.age.treat[3,]))## Distribution among visitors in age group 35-44 yrs
+t.test(as.numeric(data.age1[3,]),as.numeric(data.age.treat[3,]))## Distribution among visitors in age group 35-44 yrs
+wilcox.test(as.numeric(data.age.control[4,]),as.numeric(data.age.treat[4,]))## Distribution among visitors in age group 45-54 yrs
+t.test(as.numeric(data.age.control[4,]),as.numeric(data.age.treat[4,]))## Distribution among visitors in age group 45-54 yrs
+wilcox.test(as.numeric(data.age1[4,]),as.numeric(data.age.treat[4,]))## Distribution among visitors in age group 45-54 yrs
+t.test(as.numeric(data.age1[4,]),as.numeric(data.age.treat[4,]))## Distribution among visitors in age group 45-54 yrs
+wilcox.test(as.numeric(data.age.control[5,]),as.numeric(data.age.treat[5,]))## Distribution among visitors in all age groups 
+t.test(as.numeric(data.age.control[5,]),as.numeric(data.age.treat[5,]))## Distribution among visitors in all age groups
+wilcox.test(as.numeric(data.age1[5,]),as.numeric(data.age.treat[5,]))## Distribution among visitors in all age groups 
+t.test(as.numeric(data.age1[5,]),as.numeric(data.age.treat[5,]))## Distribution among visitors in all age groups
+```
+
+##Analysis of gender data over control and treatment weeks
+
+```{r, fig.width = 8}
+data.sex <- read.csv(file= "~/downloads/etsy_data/GA_gender.csv")
+data.sex1 <- read.csv(file= "~/downloads/etsy_data/GA_gender_C2.csv")
+head(data.sex)
+head(data.sex1)
+rownames(data.sex)<- data.sex[,1]
+data.sex <- data.sex[,-c(1)]
+rownames(data.sex1)<- data.sex1[,1]
+data.sex1 <- data.sex1[,-c(1)]
+head(data.sex)
+head(data.sex1)
+data.sex.control <- data.sex[,c(1:7)]
+data.sex.treat <- data.sex[,c(8:14)]
+plot(c(1:7),data.sex.control[1,],type = "l",main = "Distribution of sessions across gender groups: control", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.sex.control[1:2,]), max(data.sex.control[1:2,])),col = "red")
+points(c(1:7),data.sex.control[1,], pch = 20, col = "red")
+lines(c(1:7),data.sex.control[2,],type = "l",col = "blue")
+points(c(1:7),data.sex.control[2,], pch = 20, col = "blue")
+legend(x=5, y=100, legend = c("Female", "male"), col = c("red","blue"), lwd = 2, bty = "n", cex = 0.75)
+plot(c(1:7),data.sex.treat[1,],type = "l",main = "Distribution of sessions across gender groups: treatment", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.sex.treat[1:2,]), max(data.sex.treat[1:2,])),col = "red")
+points(c(1:7),data.sex.treat[1,], pch = 20, col = "red")
+lines(c(1:7),data.sex.treat[2,],type = "l",col = "blue")
+points(c(1:7),data.sex.treat[2,], pch = 20, col = "blue")
+legend(x=5, y=100, legend = c("Female", "male"), col = c("red","blue"), lwd = 2, bty = "n", cex = 0.75)
+plot(c(1:7),data.sex1[1,],type = "l",main = "Distribution of sessions across gender groups: control2", xlab= "Day", ylab = "no. of sessions", ylim = c(min(data.sex1[1:2,]), max(data.sex1[1:2,])),col = "red")
+points(c(1:7),data.sex1[1,], pch = 20, col = "red")
+lines(c(1:7),data.sex1[2,],type = "l",col = "blue")
+points(c(1:7),data.sex1[2,], pch = 20, col = "blue")
+legend(x=5, y=100, legend = c("Female", "male"), col = c("red","blue"), lwd = 2, bty = "n", cex = 0.75)
+data.sex.control <- data.sex[,c(1:7)]
+data.sex.treat <- data.sex[,c(8:14)]
+wilcox.test(as.numeric(data.sex.control[1,]),as.numeric(data.sex.treat[1,]))## Distribution among females
+t.test(as.numeric(data.sex.control[1,]),as.numeric(data.sex.treat[1,]))## Distribution among females
+wilcox.test(as.numeric(data.sex.control[2,]),as.numeric(data.sex.treat[2,]))## Distribution among males
+t.test(as.numeric(data.sex.control[2,]),as.numeric(data.sex.treat[2,]))## Distribution among males
+wilcox.test(as.numeric(data.sex.control[3,]),as.numeric(data.sex.treat[3,]))## Distribution among all visitors
+wilcox.test(as.numeric(data.sex1[1,]),as.numeric(data.sex.treat[1,]))## Distribution among females
+t.test(as.numeric(data.sex1[1,]),as.numeric(data.sex.treat[1,]))## Distribution among females
+wilcox.test(as.numeric(data.sex1[2,]),as.numeric(data.sex.treat[2,]))## Distribution among males
+t.test(as.numeric(data.sex1[2,]),as.numeric(data.sex.treat[2,]))## Distribution among males
+```
+
+##Analysis of data langauge wise for treatment & control weeks 
+
+Since we are having 58 different countries/ categories we use Matched pair Wilcoxon test to see if the distribution is identical.
+
+```{r}
+data.lang.control <- read.csv(file= "~/downloads/etsy_data/GA_lang_control.csv")
+data.lang.treat<- read.csv(file= "~/downloads/etsy_data/GA_lang_treat.csv")
+data.lang.C2<- read.csv(file= "~/downloads/etsy_data/GA_lang_C2.csv")
+lang <- intersect(data.lang.control$Language,data.lang.treat$Language)
+data1 <- subset(data.lang.control, data.lang.control$Language %in% lang)
+data2 <- subset(data.lang.treat, data.lang.treat$Language %in% lang)
+data1 <- data1[order(data1$Language),1:2]
+data2 <- data2[order(data2$Language),1:2]
+data.lang <- cbind(data1,data2$Sessions)
+names(data.lang) <- c("Langauge", "Sess.control", "Sess.treat")
+head(data.lang)
+wilcox.test(data.lang$Sess.control,data.lang$Sess.treat, paired = T)
+t.test(data.lang$Sess.control,data.lang$Sess.treat, paired = T)
+```
+
+There are 57 languages common in the two weeks C2 and treatment weeks.
+
+```{r}
+lang1 <- intersect(data.lang.C2$Language,data.lang.treat$Language)
+data1 <- subset(data.lang.C2, data.lang.C2$Language %in% lang1)
+data2 <- subset(data.lang.treat, data.lang.treat$Language %in% lang1)
+data1 <- data1[order(data1$Language),1:2]
+data2 <- data2[order(data2$Language),1:2]
+data.lang1 <- cbind(data1,data2$Sessions)
+names(data.lang1) <- c("Langauge", "Sess.control", "Sess.treat")
+head(data.lang1)
+wilcox.test(data.lang1$Sess.control,data.lang1$Sess.treat, paired = T)
+t.test(data.lang1$Sess.control,data.lang1$Sess.treat, paired = T)
+```
+
+
+##Analysis of data country wise for treatment & control weeks 
+
+Since we are having 67 different countries/ categories we use Matched pair Wilconxon test to see if the distribution is identical.
+
+```{r}
+data.country.control <- read.csv(file= "~/downloads/etsy_data/GA_country_control.csv")
+data.country.treat<- read.csv(file= "~/downloads/etsy_data/GA_country_treat.csv")
+data.country.C2<- read.csv(file= "~/downloads/etsy_data/GA_country_C2.csv")
+country <- intersect(data.country.control$Country,data.country.treat$Country)
+data1 <- subset(data.country.control, data.country.control$Country %in% country)
+data2 <- subset(data.country.treat, data.country.treat$Country %in% country)
+data1 <- data1[order(data1$Country),1:2]
+data2 <- data2[order(data2$Country),1:2]
+data.country <- cbind(data1,data2$Sessions)
+names(data.country) <- c("Country", "Sess.control", "Sess.treat")
+head(data.country)
+wilcox.test(data.country$Sess.control,data.country$Sess.treat, paired = T)
+t.test(data.country$Sess.control,data.country$Sess.treat, paired = T)
+```
+
+There are 63 common countries.
+
+```{r}
+country1 <- intersect(data.country.C2$Country,data.country.treat$Country)
+data1 <- subset(data.country.C2, data.country.C2$Country %in% country1)
+data2 <- subset(data.country.treat, data.country.treat$Country %in% country1)
+data1 <- data1[order(data1$Country),1:2]
+data2 <- data2[order(data2$Country),1:2]
+data.country1 <- cbind(data1,data2$Sessions)
+names(data.country1) <- c("Country", "Sess.control", "Sess.treat")
+head(data.country1)
+wilcox.test(data.country1$Sess.control,data.country1$Sess.treat, paired = T)
+t.test(data.country1$Sess.control,data.country1$Sess.treat, paired = T)
+```
+
+##Analysis of data affinity wise for treatment & control weeks 
+
+We observe that the distributions across affinity are identical for the two weeks.There are 94 common afinity groups.
+
+```{r}
+data.aff.control <- read.csv(file= "~/downloads/etsy_data/GA_Affinity_control.csv")
+data.aff.treat <- read.csv(file= "~/downloads/etsy_data/GA_Affinity_treat.csv")
+data.aff.C2 <- read.csv(file= "~/downloads/etsy_data/GA_Affinity_C2.csv")
+aff <- intersect(data.aff.control$Affinity.Category..reach.,data.aff.treat$Affinity.Category..reach.)
+data1 <- subset(data.aff.control, data.aff.control$Affinity.Category..reach. %in% aff)
+data2 <- subset(data.aff.treat, data.aff.treat$Affinity.Category..reach. %in% aff)
+data1 <- data1[order(data1$Affinity.Category..reach.),1:2]
+data2 <- data2[order(data2$Affinity.Category..reach.),1:2]
+data.aff <- cbind(data1,data2$Sessions)
+names(data.aff) <- c("Affinity", "Sess.control", "Sess.treat")
+head(data.aff)
+wilcox.test(data.aff$Sess.control,data.aff$Sess.treat, paired = T)
+t.test(data.aff$Sess.control,data.aff$Sess.treat, paired = T)
+```
+
+There are 90 common affinity groups.
+
+```{r}
+aff1 <- intersect(data.aff.C2$Affinity.Category..reach.,data.aff.treat$Affinity.Category..reach.)
+data1 <- subset(data.aff.C2, data.aff.C2$Affinity.Category..reach. %in% aff1)
+data2 <- subset(data.aff.treat, data.aff.treat$Affinity.Category..reach. %in% aff1)
+data1 <- data1[order(data1$Affinity.Category..reach.),1:2]
+data2 <- data2[order(data2$Affinity.Category..reach.),1:2]
+data.aff1 <- cbind(data1,data2$Sessions)
+names(data.aff1) <- c("Affinity", "Sess.control", "Sess.treat")
+head(data.aff1)
+wilcox.test(data.aff1$Sess.control,data.aff1$Sess.treat, paired = T)
+t.test(data.aff1$Sess.control,data.aff1$Sess.treat, paired = T)
+```
+
+##Analysis of data In-Market Segment wise for treatment & control weeks 
+
+We observe that the distributions across In-Market Segment are identical for the two weeks.There are 114 common IMS groups.
+
+```{r}
+data.ims.control <- read.csv(file= "~/downloads/etsy_data/GA_IMS_control.csv")
+data.ims.treat <- read.csv(file= "~/downloads/etsy_data/GA_IMS_treat.csv")
+data.ims.C2 <- read.csv(file= "~/downloads/etsy_data/GA_IMS_C2.csv")
+ims <- intersect(data.ims.control$In.Market.Segment,data.ims.treat$In.Market.Segment)
+data1 <- subset(data.ims.control, data.ims.control$In.Market.Segment %in% ims)
+data2 <- subset(data.ims.treat, data.ims.treat$In.Market.Segment %in% ims)
+data1 <- data1[order(data1$In.Market.Segment),1:2]
+data2 <- data2[order(data2$In.Market.Segment),1:2]
+data.ims <- cbind(data1,data2$Sessions)
+names(data.ims) <- c("IMS", "Sess.control", "Sess.treat")
+head(data.ims)
+wilcox.test(data.ims$Sess.control,data.ims$Sess.treat, paired = T)
+t.test(data.ims$Sess.control,data.ims$Sess.treat, paired = T)
+```
+
+There are 114 common In-market segment groups in the control week 2 and treatment week.
+
+```{r}
+ims1 <- intersect(data.ims.C2$In.Market.Segment,data.ims.treat$In.Market.Segment)
+data1 <- subset(data.ims.C2, data.ims.C2$In.Market.Segment %in% ims1)
+data2 <- subset(data.ims.treat, data.ims.treat$In.Market.Segment %in% ims1)
+data1 <- data1[order(data1$In.Market.Segment),1:2]
+data2 <- data2[order(data2$In.Market.Segment),1:2]
+data.ims1 <- cbind(data1,data2$Sessions)
+names(data.ims1) <- c("IMS", "Sess.control", "Sess.treat")
+head(data.ims1)
+wilcox.test(data.ims1$Sess.control,data.ims1$Sess.treat, paired = T)
+t.test(data.ims1$Sess.control,data.ims1$Sess.treat, paired = T)
+```
+
+##Analysis of data Other categories wise for treatment & control weeks 
+
+We observe that the distributions across other categories are identical for the two weeks.There are 97 common OC groups.
+
+```{r}
+data.OC.control <- read.csv(file= "~/downloads/etsy_data/GA_OC_control.csv")
+data.OC.treat <- read.csv(file= "~/downloads/etsy_data/GA_OC_treat.csv")
+data.OC.C2 <- read.csv(file= "~/downloads/etsy_data/GA_OC_C2.csv")
+OC <- intersect(data.OC.control$Other.Category,data.OC.treat$Other.Category)
+data1 <- subset(data.OC.control, data.OC.control$Other.Category %in% OC)
+data2 <- subset(data.OC.treat, data.OC.treat$Other.Category %in% OC)
+data1 <- data1[order(data1$Other.Category),1:2]
+data2 <- data2[order(data2$Other.Category),1:2]
+data.OC <- cbind(data1,data2$Sessions)
+names(data.OC) <- c("OC", "Sess.control", "Sess.treat")
+head(data.OC)
+wilcox.test(data.OC$Sess.control,data.OC$Sess.treat, paired = T)
+t.test(data.OC$Sess.control,data.OC$Sess.treat, paired = T)
+```
+
+For the  second control week, we have 95 common other categories groups.
+
+```{r}
+OC1 <- intersect(data.OC.C2$Other.Category,data.OC.treat$Other.Category)
+data1 <- subset(data.OC.C2, data.OC.C2$Other.Category %in% OC1)
+data2 <- subset(data.OC.treat, data.OC.treat$Other.Category %in% OC1)
+data1 <- data1[order(data1$Other.Category),1:2]
+data2 <- data2[order(data2$Other.Category),1:2]
+data.OC1 <- cbind(data1,data2$Sessions)
+names(data.OC1) <- c("OC", "Sess.control", "Sess.treat")
+head(data.OC1)
+wilcox.test(data.OC1$Sess.control,data.OC1$Sess.treat, paired = T)
+t.test(data.OC1$Sess.control,data.OC1$Sess.treat, paired = T)
+```
+
+
+

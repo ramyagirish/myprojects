@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+   <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+     </head>
+
+<body style="background-color:lightblue;">
+  <h1 style="color:brown;font-family:copperplate;font-size:350%;text-align:center;"> <b>Welcome {{ profile.user_name }} ! </b></h1>
+
+  <form method = "POST" action = "{% url 'user_weight' %}">
+          {% csrf_token %}
+
+          <p style="color:rgb(150,24,130);font-family:arial;">Enter date for which data is provided</p>
+         <input type="date" name="entry_date" />
+         <br />
+         <br />
+         <p style="color:rgb(150,24,130);font-family:arial;">Weight</p>
+          <input type="text" name="weight" />
+          <br />
+          <br />
+          <input type ="submit" name = "submit" value ="Weight"/> 
+      </form>
+
+      <br />  
+  <form method="POST" action = "{% url 'logged_in' %}">
+    {% csrf_token %}
+    <input type="submit" value="Back to Profile page"/ >
+    </form>
+      </body>
+</html>

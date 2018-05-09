@@ -1,0 +1,34 @@
+<body style="background-color:lightblue;">
+	<h1 style="color:brown;font-family:copperplate;font-size:350%;text-align:center;">
+		Diet
+	</h1>
+	
+    <h3 style="color:blue;font-size:150%;">
+     {% for food in fooditems.all %}
+    <br />
+    {{ food.energy_kcal}} 
+    <br />
+    {{ food.shrt_desc}}
+    {% endfor %}
+    </h3>
+	
+
+    
+    <h3 style="color:blue;font-size:150%;">
+     {% for food in fooditems1.all %}
+    <br />
+    {{ food.energy_kcal}} 
+    <br />
+    {{ food.shrt_desc}}
+    {% endfor %}
+    </h3>
+
+
+<h3 style="color:blue;font-size:150%;">
+     {% for food in fooditems2.all %}
+    <br />
+    {{ food.nenergy_kcal}} 
+    <br />
+    {{ food.shrt_desc}}
+    {% endfor %}
+    </h3>
