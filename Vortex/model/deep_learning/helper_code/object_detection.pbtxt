@@ -1,0 +1,349 @@
+item{
+  id: 1
+  name: 'Honda CRV 4 5'
+}
+
+item{
+  id: 2
+  name: 'Toyota Camry 6 7'
+}
+
+item{
+  id: 3
+  name: 'Ford F140 12 13'
+}
+
+item{
+  id: 4
+  name: 'Dodge Charger'
+}
+
+item{
+  id: 5
+  name: 'Chevrolet Blazer'
+}
+
+item{
+  id: 6
+  name: 'RAM 1500'
+}
+
+item{
+  id: 7
+  name: 'Chevrolet Camaro'
+}
+
+item{
+  id: 8
+  name: 'Chevrolet Cobalt'
+}
+
+item{
+  id: 9
+  name: 'Chevrolet Cruze'
+}
+
+item{
+  id: 10
+  name: 'Ford Crown Victoria'
+}
+
+item{
+  id: 11
+  name: 'Ford F450'
+}
+
+item{
+  id: 12
+  name: 'Ford Escape'
+}
+
+item{
+  id: 13
+  name: 'Honda Fit'
+}
+
+item{
+  id: 14
+  name: 'Honda Pilot'
+}
+
+item{
+  id: 15
+  name: 'Hyundai Accent'
+}
+
+item{
+  id: 16
+  name: 'Hyundai Santa Fe'
+}
+
+item{
+  id: 17
+  name: 'Nissan Pathfinder'
+}
+
+item{
+  id: 18
+  name: 'Nissan Rogue'
+}
+
+item{
+  id: 19
+  name: 'Honda Accord'
+}
+
+item{
+  id: 20
+  name: 'Ford Explorer'
+}
+
+item{
+  id: 21
+  name: 'Chevrolet Suburban'
+}
+
+item{
+  id: 22
+  name: 'Chevrolet Impala'
+}
+
+item{
+  id: 23
+  name: 'Chevrolet Malibu'
+}
+
+item{
+  id: 24
+  name: 'Chevrolet Silverado'
+}
+
+item{
+  id: 25
+  name: 'Nissan Versa Note'
+}
+
+item{
+  id: 26
+  name: 'Nissan Versa Sedan'
+}
+
+item{
+  id: 27
+  name: 'Ford F250'
+}
+
+item{
+  id: 28
+  name: 'Ford Ranger'
+}
+
+item{
+  id: 29
+  name: 'Honda Civic'
+}
+
+item{
+  id: 30
+  name: 'Nissan Altima'
+}
+
+item{
+  id: 31
+  name: 'Buick Regal'
+}
+
+item{
+  id: 32
+  name: 'Ford Fusion'
+}
+
+item{
+  id: 33
+  name: 'KIA OPTIMA'
+}
+
+item{
+  id: 34
+  name: 'TOYOTA SIENNA'
+}
+
+item{
+  id: 35
+  name: 'TOYOTA AVALON'
+}
+
+item{
+  id: 36
+  name: 'JEEP GRAND'
+}
+
+item{
+  id: 37
+  name: 'GMC SIERRA'
+}
+
+item{
+  id: 38
+  name: 'FORD FOCUS'
+}
+
+item{
+  id: 39
+  name: 'FORD F350'
+}
+
+item{
+  id: 40
+  name: 'TOYOTA TACOMA'
+}
+
+item{
+  id: 41
+  name: 'CHRYSLER PT'
+}
+
+item{
+  id: 42
+  name: 'LEXUS ES'
+}
+
+item{
+  id: 43
+  name: 'LINCOLN TOWN'
+}
+
+item{
+  id: 44
+  name: 'KIA SORENTO'
+}
+
+item{
+  id: 45
+  name: 'VOLKSWAGEN PASSAT'
+}
+
+item{
+  id: 46
+  name: 'CHRYSLER 300'
+}
+
+item{
+  id: 47
+  name: 'CHRYSLER 200'
+}
+
+item{
+  id: 48
+  name: 'DODGE NEON'
+}
+
+item{
+  id: 49
+  name: 'GMC YUKON'
+}
+
+item{
+  id: 50
+  name: 'TOYOTA HIGHLANDER'
+}
+
+item{
+  id: 51
+  name: 'Hyundai Elantra'
+}
+
+item{
+  id: 52
+  name: 'Hyundai Sonata'
+}
+
+item{
+  id: 53
+  name: 'Nissan Sentra'
+}
+
+item{
+  id: 54
+  name: 'GMC ENVOY'
+}
+
+item{
+  id: 55
+  name: 'SUBARU LEGACY'
+}
+
+item{
+  id: 56
+  name: 'CHEVROLET TAHOE'
+}
+
+item{
+  id: 57
+  name: 'NISSAN MAXIMA'
+}
+
+item{
+  id: 58
+  name: 'DODGE DAKOTA'
+}
+
+item{
+  id: 59
+  name: 'TOYOTA TUNDRA'
+}
+
+item{
+  id: 60
+  name: 'CHEVROLET S'
+}
+
+item{
+  id: 61
+  name: 'TOYOTA RAV4'
+}
+
+item{
+  id: 62
+  name: 'VOLKSWAGEN JETTA'
+}
+
+item{
+  id: 63
+  name: 'TOYOTA 4RUNNER'
+}
+
+item{
+  id: 64
+  name: 'CHEVROLET EQUINOX'
+}
+
+item{
+  id: 65
+  name: 'CHEVROLET CAVALIER'
+}
+
+item{
+  id: 66
+  name: 'DODGE DURANGO'
+}
+
+item{
+  id: 67
+  name: 'CADILLAC ESCALADE'
+}
+
+item{
+  id: 68
+  name: 'BMW 328'
+}
+
+item{
+  id: 69
+  name: 'CHEVROLET TRAVERSE'
+}
+
+item{
+  id: 70
+  name: 'SUBARU IMPREZA'
+}
